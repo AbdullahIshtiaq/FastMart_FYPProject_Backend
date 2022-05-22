@@ -1,0 +1,220 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "FastMart",
+        "description": "FastMart Backend",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:4000",
+    "basePath": "/",
+    "tages": [
+        {
+            "name": "Category",
+            "description": "Category API"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/categories/category": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get All Categories",
+                "parameters": [
+                    {
+                        "name": "categoryName",
+                        "in": "query",
+                        "required": false,
+                        "descripton": "Category Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "descripton": "Page Number",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "descripton": "Page Size",
+                        "type": "integer",
+                        "default": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Create Category API",
+                "parameters": [
+                    {
+                        "name": "categoryName",
+                        "in": "formData",
+                        "required": true,
+                        "descripton": "Category Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryDesc",
+                        "in": "formData",
+                        "descripton": "Category Description",
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryImg",
+                        "in": "formData",
+                        "descripton": "Category Image",
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/category/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "descripton": "Category Id",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Category details based on Category Id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Update Category API",
+                "parameters": [
+                    {
+                        "name": "categoryName",
+                        "in": "formData",
+                        "required": true,
+                        "descripton": "Category Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryDesc",
+                        "in": "formData",
+                        "required": true,
+                        "descripton": "Category Description",
+                        "type": "string"
+                    },
+                    {
+                        "name": "categoryImg",
+                        "in": "formData",
+                        "required": true,
+                        "descripton": "Category Image",
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Delete Category API",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Category": {
+            "required": [
+                "categoryName",
+                "_id",
+                "categoryImg"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "categoryName": {
+                    "type": "string"
+                },
+                "categoryDesc": {
+                    "type": "string"
+                },
+                "categoryImg": {
+                    "type": "string"
+                }
+            }
+        },
+        "ServiceResponse": {
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Category"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "fastmart_backend",
+  "version": "1.0.0",
+  "description": "fastmart project backend code is here",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.1",
+    "express-unless": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.4",
+    "mongoose-unique-validator": "^3.0.0",
+    "multer": "^1.4.4",
+    "swagger-ui-express": "^4.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
