@@ -35,8 +35,10 @@ async function getCategories(params, callback) {
         .limit(perPage)
         .skip(perPage * page)
         .then((response) => {
+            console.log(response);
             return callback(null, response);
         }).catch((error) => {
+            console.log(error);
             return callback(error);
         });
 }

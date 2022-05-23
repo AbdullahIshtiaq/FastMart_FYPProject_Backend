@@ -1,5 +1,7 @@
 const express = require('express');
 
+const cors = require('cors');
+
 const mongoose = require('mongoose');
 const dbConfig = require('./config/db.config');
 
@@ -39,6 +41,8 @@ mongoose.connect(dbConfig.db, {
 
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use("/uploads", express.static("uploads"));
 
