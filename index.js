@@ -48,6 +48,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.use('/users', require('./routes/users.routes.js'));
 app.use('/categories', require('./routes/categories.routes'));
+app.use('/products', require('./routes/products.routes'));
 
 app.use(errors.errorHandler);
 
