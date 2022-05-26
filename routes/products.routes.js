@@ -8,7 +8,7 @@ router.get('/product', productController.findAll);
 
 router.get('/product/:id', productController.findOne);
 
-router.put('/product/:id', productController.update);
+router.post('/product/:id', productController.update);
 
 router.delete('/product/:id', productController.delete);
 
