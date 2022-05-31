@@ -62,7 +62,7 @@ exports.findOne = (req, res, next) => {
         productId: req.params.id
     }
 
-    productServic.getProductById(model, (error, results) => {
+    productService.getProductById(model, (error, results) => {
         if (error) {
             return next(error);
         } else {
@@ -115,7 +115,7 @@ exports.delete = (req, res, next) => {
     }
     console.log("In Delete");
 
-    categoryService.deleteProduct(model, (error, results) => {
+    productService.deleteProduct(model, (error, results) => {
 
         if (error) {
             return next(error);

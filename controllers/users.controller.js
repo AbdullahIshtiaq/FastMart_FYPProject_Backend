@@ -37,3 +37,18 @@ exports.userProfile = (req, res, next) => {
     return res.status(200).json({ message: "Authorized User!" })
 }
 
+exports.findAll = (req, res, next) => {
+
+    var model = {}
+
+    userService.getUsers(model, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}

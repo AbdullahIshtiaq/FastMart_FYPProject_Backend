@@ -42,7 +42,22 @@ async function register(params, callback) {
     });
 }
 
+async function getUsers(params, callback) {
+    var condition = {};
+
+    User.find({})
+        .then((response) => {
+            console.log(response);
+            return callback(null, response);
+        }).catch((error) => {
+            console.log(error);
+            return callback(error);
+        });
+}
+
+
 module.exports = {
     login,
-    register
+    register,
+    getUsers
 }
