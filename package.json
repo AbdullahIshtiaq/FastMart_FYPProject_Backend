@@ -4,12 +4,13 @@
   "description": "fastmart project backend code is here",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./bin/www"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-unless": "^1.0.0",
@@ -20,6 +21,6 @@
     "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.19"
   }
 }

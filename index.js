@@ -2,6 +2,8 @@ const express = require('express');
 
 const cors = require('cors');
 
+const bodyParser = require('body-parser');
+
 const mongoose = require('mongoose');
 const dbConfig = require('./config/db.config');
 
@@ -40,7 +42,14 @@ mongoose.connect(dbConfig.db, {
 // )
 
 
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.json());
+
 
 app.use(cors());
 
@@ -49,6 +58,7 @@ app.use("/uploads", express.static("uploads"));
 app.use('/users', require('./routes/users.routes.js'));
 app.use('/categories', require('./routes/categories.routes'));
 app.use('/products', require('./routes/products.routes'));
+app.use('/orders', require('./routes/orders.routes'));
 
 app.use(errors.errorHandler);
 
