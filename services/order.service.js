@@ -14,11 +14,15 @@ async function createOrder(params, callback) {
         }, "");
     }
 
+    console.log("Service Line 17 "+params);
+
     const model = Order(params);
 
     model.save().then((response) => {
+        console.log("Line 22 "+response);
         return callback(null, response);
     }).catch((error) => {
+        console.log("Line 25 "+error);
         return callback(error);
     });
 }

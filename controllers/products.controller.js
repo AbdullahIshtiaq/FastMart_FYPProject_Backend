@@ -115,7 +115,7 @@ exports.delete = (req, res, next) => {
     }
     console.log("In Delete");
 
-    categoryService.deleteProduct(model, (error, results) => {
+    productService.deleteProduct(model, (error, results) => {
 
         if (error) {
             return next(error);
