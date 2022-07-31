@@ -6,6 +6,8 @@ router.post('/product', productController.create);
 
 router.get('/product', productController.findAll);
 
+router.get('/productTotal', productController.getTotal);
+
 router.get('/product/:id', productController.findOne);
 
 router.post('/product/:id', productController.update);

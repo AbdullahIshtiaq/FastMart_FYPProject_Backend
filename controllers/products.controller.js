@@ -62,13 +62,27 @@ exports.findOne = (req, res, next) => {
         productId: req.params.id
     }
 
-    productServic.getProductById(model, (error, results) => {
+    productService.getProductById(model, (error, results) => {
         if (error) {
             return next(error);
         } else {
             res.status(200).send({
                 message: "Success",
                 data: results,
+            });
+        }
+    });
+}
+
+exports.getTotal = (req, res, next) => {
+
+    productService.getProductsTotal((error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results.length,
             });
         }
     });

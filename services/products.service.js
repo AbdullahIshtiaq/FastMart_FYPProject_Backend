@@ -108,10 +108,26 @@ async function deleteProduct(params, callback) {
         });
 }
 
+async function getProductsTotal(callback) {
+
+    var condition = {};
+
+    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productSKU productType stockStatus")
+        .populate("category", "categoryName categoryImg")
+        .then((response) => {
+            console.log(response);
+            return callback(null, response);
+        }).catch((error) => {
+            console.log(error);
+            return callback(error);
+        });
+}
+
 module.exports = {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsTotal
 }
