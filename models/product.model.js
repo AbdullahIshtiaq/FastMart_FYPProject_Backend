@@ -3,6 +3,11 @@ const schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 
 const productSchema = new schema({
+    productQRcode: {
+        type: String,
+        required: true,
+        unique: true
+    },
     productName: {
         type: String,
         required: true,
@@ -36,15 +41,6 @@ const productSchema = new schema({
     productImg: {
         type: String,
         required: true,
-    },
-    productSKU: {
-        type: String,
-        required: false,
-    },
-    productType: {
-        type: String,
-        required: true,
-        default: "simple"
     },
     stockStatus: {
         type: String,

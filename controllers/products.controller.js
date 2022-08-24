@@ -15,9 +15,8 @@ exports.create = (req, res, next) => {
                 productDesc: req.body.productDesc,
                 productPrice: req.body.productPrice,
                 productSalePrice: req.body.productSalePrice,
-                productSKU: req.body.productSKU,
-                productType: req.body.productType,
                 stockStatus: req.body.stockStatus,
+                productQRcode: req.body.productQRcode,
                 productImg: path != "" ? "/" + path : "",
             }
 
@@ -74,6 +73,25 @@ exports.findOne = (req, res, next) => {
     });
 }
 
+exports.findByQRcode = (req, res, next) => {
+    console.log("Line 77: IN QR " +req.query.productQRCode)
+
+    var model = {
+        productQRcode: req.query.productQRCode
+    }
+
+    productService.getProductByQRcode(model, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
+
 exports.getTotal = (req, res, next) => {
 
     productService.getProductsTotal((error, results) => {
@@ -102,8 +120,7 @@ exports.update = (req, res, next) => {
                 productDesc: req.body.productDesc,
                 productPrice: req.body.productPrice,
                 productSalePrice: req.body.productSalePrice,
-                productSKU: req.body.productSKU,
-                productType: req.body.productType,
+                productQRcode: req.body.productQRcode,
                 stockStatus: req.body.stockStatus,
                 productImg: path != "" ? "/" + path : "",
             }

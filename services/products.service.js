@@ -3,6 +3,12 @@ const dbConfig = require('../config/db.config');
 
 async function createProduct(params, callback) {
 
+    if (!params.productQRcode) {
+        return callback({
+            message: "Product QRcode Required"
+        }, "");
+    }
+
     if (!params.productName) {
         return callback({
             message: "Product Name Required"
@@ -12,6 +18,12 @@ async function createProduct(params, callback) {
     if (!params.category) {
         return callback({
             message: "Category Required"
+        }, "");
+    }
+
+    if (!params.productPrice) {
+        return callback({
+            message: "Product Price Required"
         }, "");
     }
 
@@ -44,7 +56,7 @@ async function getProducts(params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productSKU productType stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRcode stockStatus")
         .populate("category", "categoryName categoryImg")
         .limit(perPage)
         .skip(perPage * page)
@@ -55,6 +67,33 @@ async function getProducts(params, callback) {
             console.log(error);
             return callback(error);
         });
+}
+
+async function getProductByQRcode(params, callback) {
+
+    const productQRcode = params.productQRcode;
+
+    var condition = {};
+
+    if (productQRcode) {
+        condition["productQRcode"] = {
+            $regex: new RegExp(productQRcode), $options: "i"
+        };
+
+        Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRcode stockStatus")
+        .populate("category", "categoryName categoryImg")
+            .then((response) => {
+                console.log(response);
+                return callback(null, response);
+            }).catch((error) => {
+                console.log(error);
+                return callback(error);
+            });
+    }else{
+        return callback(null, null);
+    }
+
+   
 }
 
 async function getProductById(params, callback) {
@@ -112,7 +151,7 @@ async function getProductsTotal(callback) {
 
     var condition = {};
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productSKU productType stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRCode stockStatus")
         .populate("category", "categoryName categoryImg")
         .then((response) => {
             console.log(response);
@@ -129,5 +168,6 @@ module.exports = {
     getProductById,
     updateProduct,
     deleteProduct,
-    getProductsTotal
+    getProductsTotal,
+    getProductByQRcode
 }
