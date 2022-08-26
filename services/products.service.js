@@ -3,9 +3,9 @@ const dbConfig = require('../config/db.config');
 
 async function createProduct(params, callback) {
 
-    if (!params.productQRcode) {
+    if (!params.productBarcode) {
         return callback({
-            message: "Product QRcode Required"
+            message: "Product Barcode Required"
         }, "");
     }
 
@@ -56,7 +56,7 @@ async function getProducts(params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRcode stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
         .limit(perPage)
         .skip(perPage * page)
@@ -69,18 +69,18 @@ async function getProducts(params, callback) {
         });
 }
 
-async function getProductByQRcode(params, callback) {
+async function getProductByBarcode(params, callback) {
 
-    const productQRcode = params.productQRcode;
+    const productBarcode = params.productBarcode;
 
     var condition = {};
 
-    if (productQRcode) {
-        condition["productQRcode"] = {
-            $regex: new RegExp(productQRcode), $options: "i"
+    if (productBarcode) {
+        condition["productBarcode"] = {
+            $regex: new RegExp(productBarcode), $options: "i"
         };
 
-        Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRcode stockStatus")
+        Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
             .then((response) => {
                 console.log(response);
@@ -151,7 +151,7 @@ async function getProductsTotal(callback) {
 
     var condition = {};
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productQRCode stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
         .then((response) => {
             console.log(response);
@@ -169,5 +169,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getProductsTotal,
-    getProductByQRcode
+    getProductByBarcode
 }

@@ -6,7 +6,7 @@ router.post('/product', productController.create);
 
 router.get('/product', productController.findAll);
 
-router.get('/productByQRCode', productController.findByQRcode);
+router.get('/productByBarcode', productController.findByBarcode);
 
 router.get('/productTotal', productController.getTotal);
 
