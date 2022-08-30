@@ -77,7 +77,7 @@ async function find(condition, params, callback) {
 
     Order.find(condition, "orderNo orderDate paymentMethod quantity total")
         .populate("orderUser", "username")
-        .populate("orderProducts", "productName productImg productShortDesc productPrice")
+        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
         .limit(perPage)
         .skip(perPage * page)
         .then((response) => {

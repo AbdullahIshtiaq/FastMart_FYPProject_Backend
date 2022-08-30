@@ -20,23 +20,19 @@ const productSchema = new schema({
     productShortDesc: {
         type: String,
         required: true,
-
     },
     productDesc: {
         type: String,
         required: false,
-
     },
     productPrice: {
         type: Number,
         required: true,
-
     },
     productSalePrice: {
         type: Number,
         required: true,
         default: 0
-
     },
     productImg: {
         type: String,
@@ -46,7 +42,6 @@ const productSchema = new schema({
         type: String,
         default: "IN"
     },
-
 });
 
 productSchema.set("toJSON", {
