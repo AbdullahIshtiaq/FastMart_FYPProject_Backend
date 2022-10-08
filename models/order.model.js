@@ -46,11 +46,11 @@ const schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 
 const orderSchema = new schema({
-    // orderNo: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
+    orderNo: {
+        type: String,
+        required: true,
+        unique: true
+    },
     orderUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

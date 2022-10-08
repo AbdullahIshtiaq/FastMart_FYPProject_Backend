@@ -3,10 +3,10 @@ const orderService = require('../services/order.service');
 exports.create = (req, res, next) => {
     console.log(req.body)
     var products = req.body.products.split(':')
-    //console.log(products);
     products.pop()
+    console.log(products);
 
-    var model ={
+    var model = {
         userId: req.body.userId,
         card_Number: req.body.card_Number,
         card_ExpMonth: req.body.card_ExpMonth,
@@ -16,7 +16,7 @@ exports.create = (req, res, next) => {
         card_Name: req.body.card_Name
     }
     var incomingOrder = {
-        //orderNo: req.body.orderNo,
+        orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
         orderDate: req.body.orderDate,
         quantity: req.body.quantity,
@@ -54,7 +54,12 @@ exports.update = (req, res, next) => {
 }
 
 exports.findOfUser = (req, res, next) => {
-    orderService.getUserOrders(req.body.userId, (error, results) => {
+    var model = {
+        orderUserID: req.query.orderUserID,
+        pageSize: req.query.pageSize,
+        page: req.query.page,
+    }
+    orderService.getUserOrders(model, (error, results) => {
         if (error) {
             return next(error);
         } else {
@@ -67,6 +72,7 @@ exports.findOfUser = (req, res, next) => {
 }
 
 exports.findAll = (req, res, next) => {
+
     orderService.getOrders((error, results) => {
         if (error) {
             return next(error);
@@ -128,7 +134,7 @@ exports.findAll = (req, res, next) => {
 //             return next(error);
 //         } else {
 //             console.log('Line 44 '+ results)
-//             res.status(200).send({       
+//             res.status(200).send({
 //                 message: "Success",
 //                 data: results,
 //             });

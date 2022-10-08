@@ -46,9 +46,10 @@ const productSchema = new schema({
 
 productSchema.set("toJSON", {
     transform: (document, returnedOject) => {
+        console.log("In transform "+returnedOject._id)
         returnedOject.productId = returnedOject._id.toString();
-        delete returnedOject._id;
-        delete returnedOject.__v;
+        //delete returnedOject._id;
+        //delete returnedOject.__v;
     }
 });
 

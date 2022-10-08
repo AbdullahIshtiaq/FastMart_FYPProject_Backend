@@ -6,7 +6,7 @@ router.post('/order', orderController.create);
 
 router.get('/userOrders', orderController.findOfUser);
 
-router.get('/orders', orderController.findAll);
+router.get('/order', orderController.findAll);
 
 router.post('/orderUpdate', orderController.update);
 

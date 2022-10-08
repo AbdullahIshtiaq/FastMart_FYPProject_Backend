@@ -20,7 +20,7 @@ const fileFilter = (req, file, callback) => {
 
     const fileSize = parseInt(req.headers["content-length"]);
 
-    if (file > 1048576) {
+    if (file > 200000) {
         return callback(new Error("File size is too big!"));
     }
 
@@ -30,7 +30,7 @@ const fileFilter = (req, file, callback) => {
 let upload = multer({
     storage: storage,
     fileFilter: fileFilter,
-    fileSize: 1048576,
+    fileSize: 200000,
 });
 
 module.exports = upload.single("productImg");

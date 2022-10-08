@@ -1,6 +1,8 @@
 const user = require('../models/user.model');
 const cards = require('../models/cards.model');
 const order = require('../models/order.model');
+const dbConfig = require('../config/db.config');
+
 
 const stripeService = require('../services/stripe.service');
 
@@ -113,7 +115,7 @@ async function createOrder(incomingOrder, params, callback) {
                     console.log(model);
                     console.log(incomingOrder.orderProducts);
                     const orderModel = new order({
-                        //orderNo: incomingOrder.orderNo,
+                        orderNo: incomingOrder.orderNo,
                         orderUser: params.userId,
                         orderProducts: incomingOrder.orderProducts,
                         paymentMethod: incomingOrder.paymentMethod,
@@ -163,23 +165,24 @@ async function updateOrder(params, callback) {
     });
 }
 
-async function getUserOrders(params, callback) {
-    console.log("Service Line 17 "+params);
-    order.find({ orderUser: params})
-    .populate({
-        path: 'orderProducts',
-        model: 'product',
-        populate: {
-            path: 'category',
-            model: 'category',
-            select: 'categoryName'
-        }
-    }).then((response) => {
-        return callback(null, response);
-    }).catch((error) => {
-        return callback(error);
-    });
-}
+// async function getUserOrders(params, callback) {
+
+//     console.log("Service Line 17 "+params);
+//     order.find({ orderUser: params})
+//     .populate({
+//         path: 'orderProducts',
+//         model: 'product',
+//         populate: {
+//             path: 'category',
+//             model: 'category',
+//             select: 'categoryName'
+//         }
+//     }).then((response) => {
+//         return callback(null, response);
+//     }).catch((error) => {
+//         return callback(error);
+//     });
+// }
 
 async function getOrders(callback) {
     order.find({})
@@ -192,19 +195,15 @@ async function getOrders(callback) {
             select: 'categoryName'
         }
     }).then((response) => {
+        console.log("Service Line 195 "+response);
         return callback(null, response);
     }).catch((error) => {
+        console.log(error);
         return callback(error);
     });
 
 }
 
-module.exports = {
-    createOrder,
-    updateOrder,
-    getUserOrders,
-    getOrders
-};
 
 
 
@@ -237,29 +236,29 @@ module.exports = {
 //     });
 // }
 
-// async function getUserOrders(params, callback) {
+async function getUserOrders(params, callback) {
 
-//     const orderUserID = params.orderUserID;
+    const orderUserID = params.orderUserID;
 
-//     var condition = {};
+    var condition = {};
 
-//     if (orderUserID) {
-//         condition["orderUserID"] = orderUserID;
+    if (orderUserID) {
+        condition["orderUserID"] = orderUserID;
 
-//         find(condition,params, (error, response) => {
-//             if (error) {
-//                 return callback(error);
-//             } else {
-//                 return callback(null, response);
-//             }
-//         });
+        find(condition,params, (error, response) => {
+            if (error) {
+                return callback(error);
+            } else {
+                return callback(null, response);
+            }
+        });
 
-//     } else {
-//         return callback({
-//             message: "User ID Required"
-//         }, "");
-//     }
-// }
+    } else {
+        return callback({
+            message: "User ID Required"
+        }, "");
+    }
+}
 
 // async function getOrders(params, callback) {
 
@@ -280,24 +279,23 @@ module.exports = {
 //     });
 // }
 
-// async function find(condition, params, callback) {
+async function find(condition, params, callback) {
 
-//     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
-//     let page = (Math.abs(params.page) || 1) - 1;
+    let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
+    let page = (Math.abs(params.page) || 1) - 1;
 
-//     Order.find(condition, "orderNo orderDate paymentMethod quantity total")
-//         .populate("orderUser", "username")
-//         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
-//         .limit(perPage)
-//         .skip(perPage * page)
-//         .then((response) => {
-//             console.log(response);
-//             return callback(null, response);
-//         }).catch((error) => {
-//             console.log(error);
-//             return callback(error);
-//         });
-// }
+    order.find(condition, "orderNo orderUser orderDate paymentMethod quantity total")
+        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
+        .limit(perPage)
+        .skip(perPage * page)
+        .then((response) => {
+            console.log(response);
+            return callback(null, response);
+        }).catch((error) => {
+            console.log(error);
+            return callback(error);
+        });
+}
 
 
 // module.exports = {
@@ -305,3 +303,10 @@ module.exports = {
 //     getUserOrders,
 //     getOrders,
 // }
+
+module.exports = {
+    createOrder,
+    updateOrder,
+    getUserOrders,
+    getOrders,
+};

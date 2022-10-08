@@ -23,8 +23,8 @@ const categorySchema = new schema({
 categorySchema.set("toJSON", {
     transform: (document, returnedOject) => {
         returnedOject.categoryId = returnedOject._id.toString();
-        delete returnedOject._id;
-        delete returnedOject.__v;
+        // delete returnedOject._id;
+        // delete returnedOject.__v;
     }
 });
 

@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, callback) => {
-    const acceptableExt = [".png", ".jpg", ".jpeg"];
+    const acceptableExt = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"];
 
     if (!acceptableExt.includes(path.extname(file.originalname))) {
         return callback(new Error("Only .png .jpg .jpeg fromat is allowed!"));
@@ -20,7 +20,7 @@ const fileFilter = (req, file, callback) => {
 
     const fileSize = parseInt(req.headers["content-length"]);
 
-    if (file > 1048576) {
+    if (file > 200000) {
         return callback(new Error("File size is too big!"));
     }
 
@@ -30,7 +30,7 @@ const fileFilter = (req, file, callback) => {
 let upload = multer({
     storage: storage,
     fileFilter: fileFilter,
-    fileSize: 1048576,
+    fileSize: 200000,
 });
 
 module.exports = upload.single("categoryImg");
