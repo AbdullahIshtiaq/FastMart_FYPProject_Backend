@@ -1,13 +1,56 @@
+// const mongoose = require('mongoose');
+
+// const order = mongoose.model(
+//     'order',
+//     new mongoose.Schema({
+//         userId: {
+//             type: String,
+//             required: true,
+//         },
+//         products: [{
+//             product: {
+//                 type: mongoose.Schema.Types.ObjectId,
+//                 ref: 'product',
+//                 required: true,
+//             },
+//             amount: {
+//                 type: Number,
+//                 required: true,
+
+//             },
+//             qty: {
+//                 type: Number,
+//                 required: true,
+//             },
+
+//         }],
+//         grandTotal: {
+//             type: Number,
+//             required: true,
+//         },
+//         orderStatus: {
+//             type: String,
+//             required: true,
+//         },
+//         transactionId: {
+//             type: String,
+//         },    
+//     }, { timestamps: true })
+// );
+
+// module.exports = order;
+
+
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 
 const orderSchema = new schema({
-    orderNo: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    // orderNo: {
+    //     type: String,
+    //     required: true,
+    //     unique: true
+    // },
     orderUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
@@ -27,12 +70,17 @@ const orderSchema = new schema({
     quantity: {
         type: Number,
         required: true,
-
     },
     total: {
         type: Number,
         required: false,
-
+    },
+    orderStatus: {
+        type: String,
+        required: true,
+    },
+    transactionId: {
+        type: String,
     }
 });
 
@@ -46,7 +94,7 @@ orderSchema.set("toJSON", {
 
 orderSchema.plugin(uniqueValidator, { message: "Order number already in Exists." });
 
-const Order = mongoose.model("order", orderSchema);
+const order = mongoose.model("order", orderSchema);
 
-module.exports = Order;
+module.exports = order;
 

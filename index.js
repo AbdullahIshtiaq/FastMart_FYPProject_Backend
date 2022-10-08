@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
+
 const dbConfig = require('./config/db.config');
 
 const auth = require('./middlewares/auth');
@@ -17,7 +18,7 @@ const unless = require('express-unless');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.db, {
+mongoose.connect(dbConfig.DB_CONFIG.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 
@@ -26,6 +27,7 @@ mongoose.connect(dbConfig.db, {
         console.log('Database Connented');
     },
     (error) => {
+        console.log(dbConfig.DB_CONFIG.db);
         console.log('Database Not Connented: ' + error);
     }
 

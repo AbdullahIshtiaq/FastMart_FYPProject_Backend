@@ -19,7 +19,12 @@ const userSchema = new schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    stripeCustomerID: {
+        type: String,
     }
+
+
 });
 
 userSchema.set("toJSON", {
