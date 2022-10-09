@@ -184,27 +184,25 @@ async function updateOrder(params, callback) {
 //     });
 // }
 
-async function getOrders(callback) {
-    order.find({})
-    .populate({
-        path: 'orderProducts',
-        model: 'product',
-        populate: {
-            path: 'category',
-            model: 'category',
-            select: 'categoryName'
-        }
-    }).then((response) => {
-        console.log("Service Line 195 "+response);
-        return callback(null, response);
-    }).catch((error) => {
-        console.log(error);
-        return callback(error);
-    });
+// async function getOrders(callback) {
+//     order.find({})
+//     .populate({
+//         path: 'orderProducts',
+//         model: 'product',
+//         populate: {
+//             path: 'category',
+//             model: 'category',
+//             select: 'categoryName'
+//         }
+//     }).then((response) => {
+//         console.log("Service Line 195 "+response);
+//         return callback(null, response);
+//     }).catch((error) => {
+//         console.log(error);
+//         return callback(error);
+//     });
 
-}
-
-
+// }
 
 
 // const Order = require('../models/order.model');
@@ -260,24 +258,24 @@ async function getUserOrders(params, callback) {
     }
 }
 
-// async function getOrders(params, callback) {
+async function getOrders(params, callback) {
 
-//     const orderNo= params.orderNo;
+    const orderNo= params.orderNo;
 
-//     var condition = {};
+    var condition = {};
 
-//     if (orderNo) {
-//         condition["orderNo"] = orderNo;
-//     }
+    if (orderNo) {
+        condition["orderNo"] = orderNo;
+    }
 
-//     find(condition, params, (error, response) => {
-//         if (error) {
-//             return callback(error);
-//         } else {
-//             return callback(null, response);
-//         }
-//     });
-// }
+    find(condition, params, (error, response) => {
+        if (error) {
+            return callback(error);
+        } else {
+            return callback(null, response);
+        }
+    });
+}
 
 async function find(condition, params, callback) {
 
@@ -296,13 +294,6 @@ async function find(condition, params, callback) {
             return callback(error);
         });
 }
-
-
-// module.exports = {
-//     createOrder,
-//     getUserOrders,
-//     getOrders,
-// }
 
 module.exports = {
     createOrder,
