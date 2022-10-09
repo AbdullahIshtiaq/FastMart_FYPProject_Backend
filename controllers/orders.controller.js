@@ -12,7 +12,6 @@ exports.create = (req, res, next) => {
         card_ExpMonth: req.body.card_ExpMonth,
         card_ExpYear: req.body.card_ExpYear,
         card_CVC: req.body.card_CVC,
-        amount: req.body.amount,
         card_Name: req.body.card_Name
     }
     var incomingOrder = {
@@ -24,20 +23,37 @@ exports.create = (req, res, next) => {
         orderProducts: products
     }
 
-    orderService.createOrder(incomingOrder, model, (error, results) => {
-        if (error) {
-            console.log("In error")
-            //console.log(error);
-            return next(error);
-        } else {
-            console.log("In else")
-            console.log(results)
-            res.status(200).send({
-                message: "Success",
-                data: results,
-            });
-        }
-    });
+    if (req.body.orderType == "POS") {
+        orderService.createPOSOrderByCard(incomingOrder, model, (error, results) => {
+            if (error) {
+                console.log("In error")
+                //console.log(error);
+                return next(error);
+            } else {
+                console.log("In else")
+                console.log(results)
+                res.status(200).send({
+                    message: "Success",
+                    data: results,
+                });
+            }
+        });
+    } else {
+        orderService.createOrder(incomingOrder, model, (error, results) => {
+            if (error) {
+                console.log("In error")
+                //console.log(error);
+                return next(error);
+            } else {
+                console.log("In else")
+                console.log(results)
+                res.status(200).send({
+                    message: "Success",
+                    data: results,
+                });
+            }
+        });
+    }
 }
 
 exports.update = (req, res, next) => {

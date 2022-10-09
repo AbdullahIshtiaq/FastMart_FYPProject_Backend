@@ -96,7 +96,7 @@ async function createOrder(incomingOrder, params, callback) {
                     console.log("In create order Line 93");
                     await stripeService.generatePaymentIntent({
                         "receipt_email": userDB.email,
-                        "amount": params.amount,
+                        "amount": incomingOrder.total,
                         "card_id": model.cardId,
                         "customer_id": model.stripeCustomerID,
                     }, (err, result) => {
@@ -107,7 +107,7 @@ async function createOrder(incomingOrder, params, callback) {
                         if (result) {
                             console.log("In create order Line 105");
                             model.paymentIntentId = result.id;
-                            model.client_secret = result.client_secret;                       
+                            model.client_secret = result.client_secret;
                         }
                     });
 
@@ -129,8 +129,8 @@ async function createOrder(incomingOrder, params, callback) {
                         console.log("In create order Line 124");
                         model.orderId = response._id;
                         return callback(null, model);
-                        
-                    }).catch((error) => { 
+
+                    }).catch((error) => {
                         console.log("In create order Line 129");
                         return callback(error);
                     });
@@ -141,28 +141,128 @@ async function createOrder(incomingOrder, params, callback) {
     });
 }
 
+async function createPOSOrderByCard(incomingOrder, params, callback) {
+    console.log("In create order Line 145");
+    user.findOne({ _id: params.userId }, async function (err, userDB) {
+        if (err) {
+            console.log("In create order Line 11");
+            return callback(err);
+        }
+        else {
+            console.log("In create order Line 15");
+            var model = {};
+            if (!userDB.stripeCustomerID) {
+                console.log("In create order Line 18");
+                await stripeService.createCustomer({
+                    "name": userDB.username,
+                    "email": userDB.email
+                }, (err, result) => {
+                    if (err) {
+                        console.log("In create order Line 24");
+                        return callback(err);
+                    }
+                    if (result) {
+                        console.log("In create order Line 28");
+                        userDB.stripeCustomerID = result.id;
+                        userDB.save();
+
+                        model.stripeCustomerID = result.id;
+                    }
+                }
+                );
+            } else {
+                console.log("In create order Line 37");
+                model.stripeCustomerID = userDB.stripeCustomerID;
+            }
+
+            console.log("In create order Line 41");
+
+            await stripeService.addCard({
+                "card_Name": params.card_Name,
+                "card_Number": params.card_Number,
+                "card_ExpMonth": params.card_ExpMonth,
+                "card_ExpYear": params.card_ExpYear,
+                "card_CVC": params.card_CVC,
+                "customer_Id": model.stripeCustomerID,
+            }, (err, result) => {
+                if (err) {
+                    console.log("In create order Line 64");
+                    console.log(err);
+                    return callback(err);
+                }
+                if (result) {
+                    console.log("In create order Line 69");
+                    model.cardId = result.card;
+                }
+            });
+
+            console.log("In create order Line 93");
+            await stripeService.generatePaymentIntent({
+                "receipt_email": userDB.email,
+                "amount": incomingOrder.total,
+                "card_id": model.cardId,
+                "customer_id": model.stripeCustomerID,
+            }, (err, result) => {
+                if (err) {
+                    console.log("In create order Line 101");
+                    return callback(err);
+                }
+                if (result) {
+                    console.log("In create order Line 105");
+                    model.paymentIntentId = result.id;
+                    model.client_secret = result.client_secret;
+                }
+            });
+
+            console.log("In create order Line 111");
+            console.log(model);
+            console.log(incomingOrder.orderProducts);
+            const orderModel = new order({
+                orderNo: incomingOrder.orderNo,
+                orderUser: params.userId,
+                orderProducts: incomingOrder.orderProducts,
+                paymentMethod: incomingOrder.paymentMethod,
+                orderDate: incomingOrder.orderDate,
+                quantity: incomingOrder.quantity,
+                total: incomingOrder.total,
+                orderStatus: "pending",
+            });
+
+            orderModel.save().then((response) => {
+                console.log("In create order Line 124");
+                model.orderId = response._id;
+                return callback(null, model);
+
+            }).catch((error) => {
+                console.log("In create order Line 129");
+                return callback(error);
+            });
+        }
+    });
+}
+
 async function updateOrder(params, callback) {
-    console.log("Order Service Line 142 "+params.transactionId);
+    console.log("Order Service Line 142 " + params.transactionId);
     var model = {
         orderStatus: params.status,
-        transactionId : params.transactionId,
+        transactionId: params.transactionId,
     };
 
     order.findByIdAndUpdate(params.orderId, model, { useFindAndModify: false })
-    .then((response) => {
-        if(!response){
-            return callback("Order Update Failed");
-        }else{
-            if(params.status == "success"){
-                return callback(null, "Order Updated Successfully "+response);
-            }else{
-                return callback(null, "Order Not Updated");
+        .then((response) => {
+            if (!response) {
+                return callback("Order Update Failed");
+            } else {
+                if (params.status == "success") {
+                    return callback(null, "Order Updated Successfully " + response);
+                } else {
+                    return callback(null, "Order Not Updated");
+                }
             }
-        }
-    })
-    .catch((error) => {
-        return callback(error);
-    });
+        })
+        .catch((error) => {
+            return callback(error);
+        });
 }
 
 // async function getUserOrders(params, callback) {
@@ -243,7 +343,7 @@ async function getUserOrders(params, callback) {
     if (orderUserID) {
         condition["orderUserID"] = orderUserID;
 
-        find(condition,params, (error, response) => {
+        find(condition, params, (error, response) => {
             if (error) {
                 return callback(error);
             } else {
@@ -260,7 +360,7 @@ async function getUserOrders(params, callback) {
 
 async function getOrders(params, callback) {
 
-    const orderNo= params.orderNo;
+    const orderNo = params.orderNo;
 
     var condition = {};
 
@@ -300,4 +400,5 @@ module.exports = {
     updateOrder,
     getUserOrders,
     getOrders,
+    createPOSOrderByCard
 };

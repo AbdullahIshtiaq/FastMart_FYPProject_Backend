@@ -8,13 +8,16 @@ async function getUserCards(params, callback) {
 
     const userId = params;
 
+    console.log(userId);
+
     user.findOne({ _id: userId }, async function (err, userDB) {
         if (err) {
             console.log("In create order Line 11");
             return callback(err);
         } else {
-            if (userDB.stripeCustomerId) {
-                cards.find({ customerId:userDB.stripeCustomerId }, "cardName cardNumber cardExpYear cardExpMonth cardCVC cardId")
+            console.log(userDB);
+            if (userDB.stripeCustomerID) {
+                cards.find({ customerId:userDB.stripeCustomerID }, "cardName cardNumber cardExpYear cardExpMonth cardCVC cardId")
                     .then((response) => {
                         console.log(response);
                         return callback(null, response);

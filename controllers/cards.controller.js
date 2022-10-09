@@ -3,8 +3,10 @@ const cardService = require('../services/card.service');
 exports.findOfUser = (req, res, next) => {
     var cardUserID = req.query.cardUserID;
 
+    console.log(cardUserID);
+
     if(cardUserID){
-        orderService.getUserOrders(cardUserID, (error, results) => {
+        cardService.getUserCards(cardUserID, (error, results) => {
             if (error) {
                 return next(error);
             } else {
