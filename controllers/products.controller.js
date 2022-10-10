@@ -92,15 +92,15 @@ exports.findByBarcode = (req, res, next) => {
     });
 }
 
-exports.getTotal = (req, res, next) => {
+exports.getProductsForAdmin = (req, res, next) => {
 
-    productService.getProductsTotal((error, results) => {
+    productService.getProductsForAdmin((error, results) => {
         if (error) {
             return next(error);
         } else {
             res.status(200).send({
                 message: "Success",
-                data: results.length,
+                data: results,
             });
         }
     });

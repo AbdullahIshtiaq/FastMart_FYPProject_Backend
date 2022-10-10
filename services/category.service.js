@@ -43,6 +43,18 @@ async function getCategories(params, callback) {
         });
 }
 
+
+async function getCategoriesForAdmin(callback) {
+    Category.find({}, "categoryName categoryImg")
+        .then((response) => {
+            console.log(response);
+            return callback(null, response);
+        }).catch((error) => {
+            console.log(error);
+            return callback(error);
+        });
+}
+
 async function getCategoryById(params, callback) {
 
     const categoryId = params.categoryId;
@@ -97,6 +109,7 @@ async function deleteCategory(params, callback) {
 module.exports = {
     createCategory,
     getCategories,
+    getCategoriesForAdmin,
     getCategoryById,
     updateCategory,
     deleteCategory

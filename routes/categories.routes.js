@@ -6,6 +6,8 @@ router.post('/category', categoryController.create);
 
 router.get('/category', categoryController.findAll);
 
+router.get('/categoriesForAdmin', categoryController.findForAdmin);
+
 router.get('/category/:id', categoryController.findOne);
 
 router.post('/category/:id', categoryController.update);

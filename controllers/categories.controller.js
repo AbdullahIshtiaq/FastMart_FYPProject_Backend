@@ -47,6 +47,20 @@ exports.findAll = (req, res, next) => {
     });
 }
 
+exports.findForAdmin = (req, res, next) => {
+
+    categoryService.getCategoriesForAdmin((error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
+
 exports.findOne = (req, res, next) => {
 
     var model = {

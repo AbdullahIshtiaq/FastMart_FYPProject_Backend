@@ -8,7 +8,7 @@ router.get('/product', productController.findAll);
 
 router.get('/productByBarcode', productController.findByBarcode);
 
-router.get('/productTotal', productController.getTotal);
+router.get('/productForAdmin', productController.getProductsForAdmin);
 
 router.get('/product/:id', productController.findOne);
 

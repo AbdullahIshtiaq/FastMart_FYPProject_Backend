@@ -147,7 +147,7 @@ async function deleteProduct(params, callback) {
         });
 }
 
-async function getProductsTotal(callback) {
+async function getProductsForAdmin(callback) {
 
     var condition = {};
 
@@ -168,6 +168,6 @@ module.exports = {
     getProductById,
     updateProduct,
     deleteProduct,
-    getProductsTotal,
+    getProductsForAdmin,
     getProductByBarcode
 }
