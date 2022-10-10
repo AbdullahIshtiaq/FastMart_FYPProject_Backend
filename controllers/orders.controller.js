@@ -23,22 +23,22 @@ exports.create = (req, res, next) => {
         orderProducts: products
     }
 
-    if (req.body.orderType == "POS") {
-        orderService.createPOSOrderByCard(incomingOrder, model, (error, results) => {
-            if (error) {
-                console.log("In error")
-                //console.log(error);
-                return next(error);
-            } else {
-                console.log("In else")
-                console.log(results)
-                res.status(200).send({
-                    message: "Success",
-                    data: results,
-                });
-            }
-        });
-    } else {
+    // if (req.body.orderType == "POS") {
+    //     orderService.createPOSOrderByCard(incomingOrder, model, (error, results) => {
+    //         if (error) {
+    //             console.log("In error")
+    //             //console.log(error);
+    //             return next(error);
+    //         } else {
+    //             console.log("In else")
+    //             console.log(results)
+    //             res.status(200).send({
+    //                 message: "Success",
+    //                 data: results,
+    //             });
+    //         }
+    //     });
+    // } else {
         orderService.createOrder(incomingOrder, model, (error, results) => {
             if (error) {
                 console.log("In error")
@@ -53,7 +53,7 @@ exports.create = (req, res, next) => {
                 });
             }
         });
-    }
+   // }
 }
 
 exports.update = (req, res, next) => {
@@ -103,38 +103,35 @@ exports.findAll = (req, res, next) => {
     });
 }
 
+exports.createPOSOrder = (req, res, next) => {
 
+    console.log(req.body);
+    var products = req.body.orderProducts.split(':')
+    products.pop()
+    console.log(products.length);
 
+    var model = {
+        orderNo: req.body.orderNo,
+        paymentMethod: req.body.paymentMethod,
+        orderDate: req.body.orderDate,
+        quantity: req.body.quantity,
+        total: req.body.total,
+        orderProducts: products,
+        orderStatus:  "Success",
+    }
 
-// exports.create = (req, res, next) => {
-
-//     console.log(req.body);
-//     var products = req.body.orderProducts.split(':')
-//     products.pop()
-//     console.log(products.length);
-
-//     var model = {
-//         orderNo: req.body.orderNo,
-//         orderUser: req.body.orderUser,
-//         paymentMethod: req.body.paymentMethod,
-//         orderDate: req.body.orderDate,
-//         quantity: req.body.quantity,
-//         total: req.body.total,
-//         orderProducts: products
-//     }
-
-//     console.log("Line 18 "+ model);
-//     orderService.createOrder(model, (error, results) => {
-//         if (error) {
-//             return next(error);
-//         } else {
-//             res.status(200).send({
-//                 message: "Success",
-//                 data: results,
-//             });
-//         }
-//     });
-// }
+    console.log("Line 18 "+ model);
+    orderService.createPOSOrder(model, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
 
 // exports.findAllOfUser = (req, res, next) => {
 
