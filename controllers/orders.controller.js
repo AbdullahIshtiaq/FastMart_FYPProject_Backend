@@ -89,7 +89,9 @@ exports.findOfUser = (req, res, next) => {
 
 exports.findAll = (req, res, next) => {
 
-    orderService.getOrders((error, results) => {
+    var orderNo = req.query.orderNo;
+
+    orderService.getOrders(orderNo, (error, results) => {
         if (error) {
             return next(error);
         } else {
