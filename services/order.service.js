@@ -84,61 +84,102 @@ async function createOrder(incomingOrder, params, callback) {
                                 cardModel.save();
                                 model.cardId = result.card;
 
-                            }
+                                var intent = {
+                                    "receipt_email": userDB.email,
+                                    "amount": incomingOrder.total,
+                                    "card_id": model.cardId,
+                                    "customer_id": model.stripeCustomerID,
+                                }
 
+                                createPaymentIntent(intent, (err, result) => {
+                                    if (err) {
+                                        console.log("In create order Line 101");
+                                        return callback(err);
+                                    }
+                                    if (result) {
+                                        console.log("In create order Line 105");
+                                        model.paymentIntentId = result.id;
+                                        model.client_secret = result.client_secret;
+                                        saveOrderDB(incomingOrder, model, (err, result) => {
+                                            if (err) {
+                                                console.log("In create order Line 111");
+                                                return callback(err);
+                                            }
+                                            if (result) {
+                                                model.orderId = result;
+                                                console.log("In create order Line 115");
+                                                console.log(model);
+                                                return callback(null,model);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
                         });
 
                     } else {
                         console.log("In create order Line 89");
                         model.cardId = cardDB.cardId;
+
+                        var intent = {
+                            "receipt_email": userDB.email,
+                            "amount": incomingOrder.total,
+                            "card_id": model.cardId,
+                            "customer_id": model.stripeCustomerID,
+                        }
+
+                        createPaymentIntent(intent, (err, result) => {
+                            if (err) {
+                                console.log("In create order Line 101");
+                                return callback(err);
+                            }
+                            if (result) {
+                                console.log("In create order Line 105");
+                                model.paymentIntentId = result.id;
+                                model.client_secret = result.client_secret;
+                                saveOrderDB(incomingOrder, model, (err, result) => {
+                                    if (err) {
+                                        console.log("In create order Line 111");
+                                        return callback(err);
+                                    }
+                                    if (result) {
+                                        model.orderId = result;
+                                        console.log("In create order Line 115 ");
+                                        console.log(model); 
+                                        return callback(null,model);
+                                    }
+                                });
+                            }
+                        });
                     }
-
-                    console.log("In create order Line 93");
-                    await stripeService.generatePaymentIntent({
-                        "receipt_email": userDB.email,
-                        "amount": incomingOrder.total,
-                        "card_id": model.cardId,
-                        "customer_id": model.stripeCustomerID,
-                    }, (err, result) => {
-                        if (err) {
-                            console.log("In create order Line 101");
-                            return callback(err);
-                        }
-                        if (result) {
-                            console.log("In create order Line 105");
-                            model.paymentIntentId = result.id;
-                            model.client_secret = result.client_secret;
-                        }
-                    });
-
-                    console.log("In create order Line 111");
-                    console.log(model);
-                    console.log(incomingOrder.orderProducts);
-                    const orderModel = new order({
-                        orderNo: incomingOrder.orderNo,
-                        orderUser: params.userId,
-                        orderProducts: incomingOrder.orderProducts,
-                        paymentMethod: incomingOrder.paymentMethod,
-                        orderDate: incomingOrder.orderDate,
-                        quantity: incomingOrder.quantity,
-                        total: incomingOrder.total,
-                        orderStatus: "pending",
-                    });
-
-                    orderModel.save().then((response) => {
-                        console.log("In create order Line 124");
-                        model.orderId = response._id;
-                        return callback(null, model);
-
-                    }).catch((error) => {
-                        console.log("In create order Line 129");
-                        return callback(error);
-                    });
-
                 }
             });
         }
     });
+}
+
+async function saveOrderDB(incomingOrder, model, callback) {
+    console.log("In create order Line 160");
+    const orderModel = new order({
+        orderNo: incomingOrder.orderNo,
+        orderUser: model.userId,
+        orderProducts: incomingOrder.orderProducts,
+        paymentMethod: incomingOrder.paymentMethod,
+        orderDate: incomingOrder.orderDate,
+        quantity: incomingOrder.quantity,
+        total: incomingOrder.total,
+        orderStatus: "pending",
+    });
+
+    orderModel.save().then((response) => {
+        console.log("In create order Line 173");
+        return callback(null, response._id);
+
+    }).catch((error) => {
+        console.log("In create order Line 177");
+        return callback(error);
+    });
+
 }
 
 async function createPOSOrderByCard(incomingOrder, params, callback) {
@@ -200,7 +241,7 @@ async function createPOSOrderByCard(incomingOrder, params, callback) {
                         "card_id": model.cardId,
                         "customer_id": model.stripeCustomerID,
                     }
-                    
+
                     createPaymentIntent(intent, (err, result) => {
                         if (err) {
                             console.log("In create order Line 101");
@@ -234,7 +275,6 @@ async function createPOSOrderByCard(incomingOrder, params, callback) {
                                 console.log("In create order Line 129");
                                 return callback(error);
                             });
-
                         }
                     });
                 }
@@ -245,6 +285,7 @@ async function createPOSOrderByCard(incomingOrder, params, callback) {
 
 async function createPaymentIntent(params, callback) {
 
+    console.log("In create order Line 285");
     await stripeService.generatePaymentIntent({
         "receipt_email": params.receipt_email,
         "amount": params.amount,
@@ -252,11 +293,12 @@ async function createPaymentIntent(params, callback) {
         "customer_id": params.customer_id,
     }, (err, result) => {
         if (err) {
-            console.log("In create order Line 101");
+            console.log(err);
+            console.log("In create order Line 294");
             return callback(err);
         }
         if (result) {
-            console.log("In create order Line 105");
+            console.log("In create order Line 298");
 
             var model = {
                 "id": result.id,
