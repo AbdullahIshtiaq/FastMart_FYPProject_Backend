@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const bcryptjs = require('bcryptjs');
 const auth = require('../middlewares/auth');
+const Admin = require('../models/admin.model');
 
 async function login({ email, password }, callback) {
     console.log("In User Service " + email);

@@ -6,4 +6,6 @@ router.get('/userCards', cardController.findOfUser);
 
 router.post('/createCard', cardController.create);
 
+router.delete('/deleteCard', cardController.delete);
+
 module.exports = router;

@@ -100,7 +100,7 @@ async function createOrder(incomingOrder, params, callback) {
                                         console.log("In create order Line 105");
                                         model.paymentIntentId = result.id;
                                         model.client_secret = result.client_secret;
-                                        saveOrderDB(incomingOrder, model, (err, result) => {
+                                        saveOrderDB(incomingOrder,  params.userId, (err, result) => {
                                             if (err) {
                                                 console.log("In create order Line 111");
                                                 return callback(err);
@@ -137,7 +137,8 @@ async function createOrder(incomingOrder, params, callback) {
                                 console.log("In create order Line 105");
                                 model.paymentIntentId = result.id;
                                 model.client_secret = result.client_secret;
-                                saveOrderDB(incomingOrder, model, (err, result) => {
+
+                                saveOrderDB(incomingOrder, params.userId, (err, result) => {
                                     if (err) {
                                         console.log("In create order Line 111");
                                         return callback(err);
@@ -185,11 +186,11 @@ async function createPaymentIntent(params, callback) {
 }
 
 
-async function saveOrderDB(incomingOrder, model, callback) {
+async function saveOrderDB(incomingOrder, params, callback) {
     console.log("In create order Line 160");
     const orderModel = new order({
         orderNo: incomingOrder.orderNo,
-        orderUser: model.userId,
+        orderUser: params,
         orderProducts: incomingOrder.orderProducts,
         paymentMethod: incomingOrder.paymentMethod,
         orderDate: incomingOrder.orderDate,
@@ -200,6 +201,7 @@ async function saveOrderDB(incomingOrder, model, callback) {
 
     orderModel.save().then((response) => {
         console.log("In create order Line 173");
+        console.log(response);
         return callback(null, response._id);
 
     }).catch((error) => {
@@ -337,7 +339,7 @@ async function getUserOrders(params, callback) {
     var condition = {};
 
     if (orderUserID) {
-        condition["orderUserID"] = orderUserID;
+        condition["orderUser"] = orderUserID;
 
         find(condition, params, (error, response) => {
             if (error) {

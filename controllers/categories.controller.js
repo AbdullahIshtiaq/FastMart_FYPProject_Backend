@@ -109,7 +109,7 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
 
     var model = {
-        categoryId: req.params.id,
+        categoryId: req.query.cardId,
     }
     console.log("In Delete");
 

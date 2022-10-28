@@ -129,8 +129,30 @@ async function getUserCards(params, callback) {
     });
 }
 
+async function deleteCard(params, callback) {
+
+    const cardId = params.cardId;
+
+    cards.findOneAndDelete({cardId: cardId}, function (err, cardDB) {
+        if (err) {
+            console.log("In Error");
+            return callback(err);
+        } else {
+            console.log(cardDB);
+            if (cardDB) {
+                return callback(null, cardDB);
+            } else {
+                return callback({
+                    message: "No cards found"
+                }, "");
+            }
+        }
+    });   
+}
+
 module.exports = {
     getUserCards,
-    createCard
+    createCard,
+    deleteCard
 };
 

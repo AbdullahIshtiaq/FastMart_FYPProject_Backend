@@ -54,3 +54,23 @@ exports.findOfUser = (req, res, next) => {
 
     }
 }
+
+exports.delete = (req, res, next) => {
+
+    var model = {
+        cardId: req.query.cardId,
+    }
+    console.log("In Delete");
+
+    cardService.deleteCard(model, (error, results) => {
+
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
