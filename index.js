@@ -62,6 +62,7 @@ app.use('/products', require('./routes/products.routes'));
 app.use('/orders', require('./routes/orders.routes'));
 app.use('/cards', require('./routes/cards.routes'));
 app.use('/admin', require('./routes/admin.routes'));
+app.use('/demands', require('./routes/demands.routes'));
 
 app.use(errors.errorHandler);
 
