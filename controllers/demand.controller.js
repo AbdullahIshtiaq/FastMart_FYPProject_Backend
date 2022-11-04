@@ -1,10 +1,15 @@
 const demandService = require('../services/demand.service');
 
 exports.create = (req, res, next) => {
-    console.log(req.body);
+    console.log(req.body);  
     var model = {
         demandUserId: req.body.userId,
         message: req.body.message,
+        demandStatus: req.body.status,    
+    }
+
+    if (req.body.product) {
+        model.demandProduct = req.body.product;
     }
 
     demandService.createDemand(model, (error, results) => {
@@ -28,6 +33,7 @@ exports.find = (req, res, next) => {
     var model = {
         status: req.query.status,
         demandUserId: req.query.userId,
+        progress: req.query.progress,
     }
 
     demandService.getDemands(model, (error, results) => {
@@ -45,7 +51,7 @@ exports.find = (req, res, next) => {
 exports.update = (req, res, next) => {
     console.log(req.query);
     var model = {
-        demandStatus: req.query.status,
+        demandProgress: req.query.progress,
         demandId: req.query.demandId,
     }
     console.log("In Update");

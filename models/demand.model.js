@@ -7,11 +7,19 @@ const demandSchema = new schema({
         ref: 'user',
         required: true,
     },
+    demandProduct: {
+        type: String,
+        default: "None"
+    },
     message: {
         type: String,
         required: true,
     },
     demandStatus: {
+        type: String,
+        required: true,
+    },
+    demandProgress: {
         type: String,
         default: "Pending"
     },

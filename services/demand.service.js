@@ -13,6 +13,12 @@ async function createDemand(params, callback) {
             message: "Message Required"
         }, "");
     }
+
+    if (!params.demandStatus) {
+        return callback({
+            message: "Demand Status Required"
+        }, "");
+    }
     const model = Demand(params);
 
     model.save().then((response) => {
@@ -26,6 +32,7 @@ async function getDemands(params, callback) {
 
     const demandStatus = params.status;
     const demandUserId = params.userId;
+    const demandProgress = params.progress;
 
     var condition = {};
 
@@ -37,7 +44,11 @@ async function getDemands(params, callback) {
         condition["demandUserId"] = demandUserId;
     }
 
-    Demand.find(condition, "message demandStatus createdDateTime")
+    if (demandProgress) {
+        condition["demandProgress"] = demandProgress;
+    }
+
+    Demand.find(condition, "demandProduct message demandStatus demandProgress createdDateTime")
         .populate("demandUserId", "username")
         .then((response) => {
             console.log(response);
@@ -52,7 +63,7 @@ async function updateDemand(params, callback) {
 
     const demandId = params.demandId;
     var model = {
-        demandStatus: params.demandStatus,
+        demandProgress: params.demandProgress,
     };
 
     console.log(params);
