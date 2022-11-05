@@ -50,6 +50,7 @@ async function getDemands(params, callback) {
 
     Demand.find(condition, "demandProduct message demandStatus demandProgress createdDateTime")
         .populate("demandUserId", "username")
+        .sort({ createdDateTime: -1 })
         .then((response) => {
             console.log(response);
             return callback(null, response);
