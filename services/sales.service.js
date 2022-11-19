@@ -24,10 +24,22 @@ async function arrangeDaily(orderList, callback) {
     console.log("In create order Line 24");
     const filteredOrderList = [
         {
-            slot1: [],
-            slot2: [],
-            slot3: [],
-            slot4: [],
+            slot1: {
+                total: 0,
+                quantity: 0
+            },
+            slot2: {
+                total: 0,
+                quantity: 0
+            },
+            slot3: {
+                total: 0,
+                quantity: 0
+            },
+            slot4: {
+                total: 0,
+                quantity: 0
+            },
         }
     ];
     for (let i = 0; i < orderList.length; i++) {
@@ -35,13 +47,17 @@ async function arrangeDaily(orderList, callback) {
         const timeInSeconds = convertToSeconds(orderList[i].orderTime);
         console.log(timeInSeconds);
         if (timeInSeconds >= '39600' && timeInSeconds < '50400') {
-            filteredOrderList[0].slot1.push(orderList[i]);
+            filteredOrderList[0].slot1.total += orderList[i].total;
+            filteredOrderList[0].slot1.quantity += orderList[i].quantity;
         } else if (timeInSeconds >= '50400' && timeInSeconds < '61200') {
-            filteredOrderList[0].slot2.push(orderList[i]);
+            filteredOrderList[0].slot2.total += orderList[i].total;
+            filteredOrderList[0].slot2.quantity += orderList[i].quantity;
         } else if (timeInSeconds >= '61200' && timeInSeconds < '72000') {
-            filteredOrderList[0].slot3.push(orderList[i]);
+            filteredOrderList[0].slot3.total += orderList[i].total;
+            filteredOrderList[0].slot3.quantity += orderList[i].quantity;
         } else if (timeInSeconds >= '72000' && timeInSeconds < '82800') {
-            filteredOrderList[0].slot4.push(orderList[i]);
+            filteredOrderList[0].slot4.total += orderList[i].total;
+            filteredOrderList[0].slot4.quantity += orderList[i].quantity;
         }
     }
     console.log(filteredOrderList);
@@ -122,13 +138,34 @@ async function arrangeWeekly(initialDate, orderList, callback) {
     console.log(initialDate);
     const filteredOrderList = [
         {
-            day1: [],
-            day2: [],
-            day3: [],
-            day4: [],
-            day5: [],
-            day6: [],
-            day7: [],
+            day1:  {
+                total: 0,
+                quantity: 0
+            },
+            day2:  {
+                total: 0,
+                quantity: 0
+            },
+            day3:  {
+                total: 0,
+                quantity: 0
+            },
+            day4:  {
+                total: 0,
+                quantity: 0
+            },
+            day5:  {
+                total: 0,
+                quantity: 0
+            },
+            day6:  {
+                total: 0,
+                quantity: 0
+            },
+            day7:  {
+                total: 0,
+                quantity: 0
+            },
         }
     ];
 
@@ -136,19 +173,26 @@ async function arrangeWeekly(initialDate, orderList, callback) {
         var date = orderList[i].orderDate.toString();
         //console.log(date);
         if (date == ((parseInt(initialDate.split('/')[0]) + 1) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day1.push(orderList[i]);
+            filteredOrderList[0].day1.total += orderList[i].total;
+            filteredOrderList[0].day1.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 2) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day2.push(orderList[i]);
+            filteredOrderList[0].day2.total += orderList[i].total;
+            filteredOrderList[0].day2.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 3) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day3.push(orderList[i]);
+            filteredOrderList[0].day3.total += orderList[i].total;
+            filteredOrderList[0].day3.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 4) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day4.push(orderList[i]);
+            filteredOrderList[0].day4.total += orderList[i].total;
+            filteredOrderList[0].day4.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 5) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day5.push(orderList[i]);
+            filteredOrderList[0].day5.total += orderList[i].total;
+            filteredOrderList[0].day5.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 6) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day6.push(orderList[i]);
+            filteredOrderList[0].day6.total += orderList[i].total;
+            filteredOrderList[0].day6.quantity += orderList[i].quantity;
         } else if (date == ((parseInt(initialDate.split('/')[0]) + 7) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
-            filteredOrderList[0].day7.push(orderList[i]);
+            filteredOrderList[0].day7.total += orderList[i].total;
+            filteredOrderList[0].day7.quantity += orderList[i].quantity;
         }
     }
     //console.log(filteredOrderList);
@@ -182,18 +226,54 @@ async function arrangeMonthly(initialDate, orderList, callback) {
     const year = initialDate.split('/')[2];
     const filteredOrderList = [
         {
-            month1: [],
-            month2: [],
-            month3: [],
-            month4: [],
-            month5: [],
-            month6: [],
-            month7: [],
-            month8: [],
-            month9: [],
-            month10: [],
-            month11: [],
-            month12: [],
+            month1:  {
+                total: 0,
+                quantity: 0
+            },
+            month2:  {
+                total: 0,
+                quantity: 0
+            },
+            month3:  {
+                total: 0,
+                quantity: 0
+            },
+            month4:  {
+                total: 0,
+                quantity: 0
+            },
+            month5:  {
+                total: 0,
+                quantity: 0
+            },
+            month6:  {
+                total: 0,
+                quantity: 0
+            },
+            month7:  {
+                total: 0,
+                quantity: 0
+            },
+            month8:  {
+                total: 0,
+                quantity: 0
+            },
+            month9:  {
+                total: 0,
+                quantity: 0
+            },
+            month10:  {
+                total: 0,
+                quantity: 0
+            },
+            month11:  {
+                total: 0,
+                quantity: 0
+            },
+            month12:  {
+                total: 0,
+                quantity: 0
+            },
 
         }
     ];
@@ -210,29 +290,41 @@ async function arrangeMonthly(initialDate, orderList, callback) {
         //console.log(seconds);
 
         if (seconds >= ((new Date(year + "-01-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-01-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month1.push(orderList[i]);
+            filteredOrderList[0].month1.total += orderList[i].total;
+            filteredOrderList[0].month1.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-02-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-02-28T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month2.push(orderList[i]);
+            filteredOrderList[0].month2.total += orderList[i].total;
+            filteredOrderList[0].month2.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-03-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-03-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month3.push(orderList[i]);
+            filteredOrderList[0].month3.total += orderList[i].total;
+            filteredOrderList[0].month3.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-04-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-04-30T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month4.push(orderList[i]);
+            filteredOrderList[0].month4.total += orderList[i].total;
+            filteredOrderList[0].month4.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-05-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-05-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month5.push(orderList[i]);
+            filteredOrderList[0].month5.total += orderList[i].total;
+            filteredOrderList[0].month5.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-06-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-06-30T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month6.push(orderList[i]);
+            filteredOrderList[0].month6.total += orderList[i].total;
+            filteredOrderList[0].month6.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-07-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-07-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month7.push(orderList[i]);
+            filteredOrderList[0].month7.total += orderList[i].total;
+            filteredOrderList[0].month7.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-08-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(+year + "-08-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month8.push(orderList[i]);
+            filteredOrderList[0].month8.total += orderList[i].total;
+            filteredOrderList[0].month8.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-09-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-09-30T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month9.push(orderList[i]);
+            filteredOrderList[0].month9.total += orderList[i].total;
+            filteredOrderList[0].month9.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-10-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-10-30T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month10.push(orderList[i]);
+            filteredOrderList[0].month10.total += orderList[i].total;
+            filteredOrderList[0].month10.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-11-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(+year + "-11-30T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month11.push(orderList[i]);
+            filteredOrderList[0].month11.total += orderList[i].total;
+            filteredOrderList[0].month11.quantity += orderList[i].quantity;
         } else if (seconds >= ((new Date(year + "-12-01T00:00:00").getTime()) / 1000) && seconds <= ((new Date(year + "-12-31T00:00:00").getTime()) / 1000)) {
-            filteredOrderList[0].month12.push(orderList[i]);
+            filteredOrderList[0].month12.total += orderList[i].total;
+            filteredOrderList[0].month12.quantity += orderList[i].quantity;
         }
     }
     //console.log(filteredOrderList);
