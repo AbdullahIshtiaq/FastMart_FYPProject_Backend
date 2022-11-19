@@ -26,6 +26,7 @@ mongoose.connect(dbConfig.DB_CONFIG.db, {
     () => {
         console.log('Database Connented');
     },
+
     (error) => {
         console.log(dbConfig.DB_CONFIG.db);
         console.log('Database Not Connented: ' + error);
@@ -63,6 +64,7 @@ app.use('/orders', require('./routes/orders.routes'));
 app.use('/cards', require('./routes/cards.routes'));
 app.use('/admin', require('./routes/admin.routes'));
 app.use('/demands', require('./routes/demands.routes'));
+app.use('/sales', require('./routes/sales.routes'));
 
 app.use(errors.errorHandler);
 

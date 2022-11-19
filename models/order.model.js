@@ -65,7 +65,11 @@ const orderSchema = new schema({
     },
     orderDate: {
         type: String,
-        required: true,
+        required: true
+    },
+    orderTime: {
+        type: String,
+        required: true
     },
     quantity: {
         type: Number,

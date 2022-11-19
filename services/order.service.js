@@ -188,13 +188,20 @@ async function createPaymentIntent(params, callback) {
 
 async function saveOrderDB(incomingOrder, params, callback) {
     console.log("In create order Line 160");
+
+    const dateTime = new Date().toLocaleString();
+    console.log("In save order Line 193"); 
+
+    console.log(dateTime);
+
     const orderModel = new order({
         orderNo: incomingOrder.orderNo,
         orderUser: params,
         orderProducts: incomingOrder.orderProducts,
         paymentMethod: incomingOrder.paymentMethod,
-        orderDate: incomingOrder.orderDate,
         quantity: incomingOrder.quantity,
+        orderDate: dateTime.split(', ')[0],
+        orderTime: dateTime.split(', ')[1],
         total: incomingOrder.total,
         orderStatus: "pending",
     });

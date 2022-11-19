@@ -23,37 +23,21 @@ exports.create = (req, res, next) => {
         orderProducts: products
     }
 
-    // if (req.body.orderType == "POS") {
-    //     orderService.createPOSOrderByCard(incomingOrder, model, (error, results) => {
-    //         if (error) {
-    //             console.log("In error")
-    //             //console.log(error);
-    //             return next(error);
-    //         } else {
-    //             console.log("In else")
-    //             console.log(results)
-    //             res.status(200).send({
-    //                 message: "Success",
-    //                 data: results,
-    //             });
-    //         }
-    //     });
-    // } else {
-        orderService.createOrder(incomingOrder, model, (error, results) => {
-            if (error) {
-                console.log("In error")
-                //console.log(error);
-                return next(error);
-            } else {
-                console.log("In else")
-                console.log(results)
-                res.status(200).send({
-                    message: "Success",
-                    data: results,
-                });
-            }
-        });
-   // }
+
+    orderService.createOrder(incomingOrder, model, (error, results) => {
+        if (error) {
+            console.log("In error")
+            //console.log(error);
+            return next(error);
+        } else {
+            console.log("In else")
+            console.log(results)
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
 }
 
 exports.update = (req, res, next) => {
@@ -113,14 +97,13 @@ exports.createPOSOrder = (req, res, next) => {
     var model = {
         orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
-        orderDate: req.body.orderDate,
         quantity: req.body.quantity,
         total: req.body.total,
         orderProducts: products,
-        orderStatus:  "Success",
+        orderStatus: "Success",
     }
 
-    console.log("Line 18 "+ model);
+    console.log("Line 18 " + model);
     orderService.createPOSOrder(model, (error, results) => {
         if (error) {
             return next(error);
