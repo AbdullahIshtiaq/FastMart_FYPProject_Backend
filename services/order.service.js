@@ -373,7 +373,7 @@ async function getOrders(params, callback) {
         condition["orderNo"] = orderNo;
     }
 
-    order.find(condition, "orderNo orderUser orderDate paymentMethod quantity total")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total")
         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
         .then((response) => {
             console.log(response);
@@ -389,7 +389,7 @@ async function find(condition, params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    order.find(condition, "orderNo orderUser orderDate paymentMethod quantity total")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total")
         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
         .limit(perPage)
         .skip(perPage * page)

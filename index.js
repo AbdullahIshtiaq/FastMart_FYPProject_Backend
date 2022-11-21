@@ -65,6 +65,7 @@ app.use('/cards', require('./routes/cards.routes'));
 app.use('/admin', require('./routes/admin.routes'));
 app.use('/demands', require('./routes/demands.routes'));
 app.use('/sales', require('./routes/sales.routes'));
+app.use('/notifications', require('./routes/push-notication.routes'));
 
 app.use(errors.errorHandler);
 

@@ -43,7 +43,28 @@ async function register(params, callback) {
     });
 }
 
+async function updateToken(params, callback) {
+    console.log("In User Service Line 47 ");
+    console.log(params);
+    var model = {
+        fcmToken: params.fcmToken
+    };
+
+    User.findByIdAndUpdate(params.userId, model, { useFindAndModify: false })
+        .then((response) => {
+            if (!response) {
+                return callback("User Token Update Failed");
+            } else {
+                return callback(null, "User Token Updated Successfully " + response);
+            }
+        })
+        .catch((error) => {
+            return callback(error);
+        });
+}
+
 module.exports = {
     login,
-    register
+    register,
+    updateToken
 }

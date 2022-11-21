@@ -22,9 +22,10 @@ const userSchema = new schema({
     },
     stripeCustomerID: {
         type: String,
-    }
-
-
+    },
+    fcmToken: {
+        type: String,
+    },
 });
 
 userSchema.set("toJSON", {

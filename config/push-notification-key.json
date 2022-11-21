@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fastmart-8935e",
+  "private_key_id": "765d2604a79cb754fb3190f304ae6ac4e95366ae",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDCBP+Rcwyfney9\nrq4hJe/gprFEXBKXnUoY8eJGZ4asHUTfX1aHbYPg56SLblOpNkeKgLMbRSj8a8Tb\na5O0islfwbx0tKbG90qJUGqIWFxHzzq+YRpYe1huS+jRisdCLixttxQAQMB/Ua93\nQIuPoXGurnxbbmisGHSRAFUDWbHacKICYoQN6+VHqVcZK6H8YrGDZDMBazMl+FZh\nHR7tuKBE1kEILGuX7bbYqjpN2cmnEjWflRDE1lHkEcaY+9NvwXKbcXwd0mC3vqng\nKI7aITZS2qBXcBd5ZYa8ZZ/ERt+mMEx0O0JH8qssn1ZjqGwtba5WD9KP25VowB39\nxDhq9BORAgMBAAECggEAKD+4Mti+oCg3Ufw4VFkV47FA6fD9zGUNV5JqQfe9CNyD\niqExBqQx7Qiw6lnnUh2YBsP/I+Obho3mxywQdq4p60r6CO3nATSQyl6b0xAdiKoV\nQiRLvlpMNIlb0YhsIK8KeXI23HySUndEIsWJjjDMMBQzaRZE8ZqbJ+99M1Y6nplN\nRh/SqA9k5j1dh9lnHu/nH6h1d86xmWyz7pWGL9unK4S34s55gNIIqTtKV7dgpTkW\n1wBFwBFYS8mB9PMGGPlSBC4iRjCCO/o+o3ncnOA/W13EKbKj4j0JJ5n8eCADNOdt\ndc3nvyCjgOsTZ6uCJvdMyzgilOR+D9NWxTatxLXLVwKBgQDxj/pbb79FPiPNY3ti\nV1uuSH79q8/yJin7YAcXp+EQX712yL+9cmWmKErtQ+d32aLVj5AgjdSVI6e9RjTZ\n5xtb+IemHQqaEFJehVjc28yeBuy/NIEPIB74q8MGJd8KuvVKR88+j4qOvbExy6Oa\nUHHZpIYvLypval8yKjJUVi+wowKBgQDNnZdSaag73qj9QSb/wh5x8qmvYkadquzc\nxgb/RbtpO/OCR6pJEBpAGOgWnH6TWzzQ75U53tgUO3Ev6AW0iDxvUKvvGNboOkup\nAoJXSTp7qe85p+T1CByHZ/ScnFDaaMjpgI5LC/6Ae/MUZUY1n68wVmv5xKOSsR84\n7IUwy7AKOwKBgQDKEl4lNTK00smSW+DwIBHSllSdEafvcdt2rBriwA3265ALmN1E\ntjiwKU6cckxkJswfiGvRv7OQWvZL0DoP+lMZuaqH3A1tWa/93+C5SKk/nJ1ZSauY\noo8mCFEpiG6vhDwDOlT0iZEn3SkodahTQ24p2YZiXDtMXphp14CoqjxUrwKBgQCR\nBeYFKqCOGa33ckyfd7shg5ZLLXXBHx2RWdr1kaltv+swqHtirQjWzLpluFtOc7uh\nYlpORu8A1iwvLedYPf7iRHQAX/S0NunGew6TogKt1l30vIawjNgSaTAOhfJBGkca\n6qFyLTOES+hXKlcq20YlQc9Gi3sTq/npnGkU0ZWIoQKBgArx8XTdZl2NPlFZTFyl\nAtg9DLldR6W4eDzZe760DTTb0Q8gM5AZVDPMpGS6opt9iqI1VlepL7kHBneCeuNv\n9NpMELU/Hr2MNSHLUR5bo4rxFas36Nz0k6DzqIey7Gs2Lhq3Ebp+f9Mav5ARAgDL\nZ0h/7riDmZyQ02fQiWiMcC87\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-owyz1@fastmart-8935e.iam.gserviceaccount.com",
+  "client_id": "107292355504381645143",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-owyz1%40fastmart-8935e.iam.gserviceaccount.com"
+}
