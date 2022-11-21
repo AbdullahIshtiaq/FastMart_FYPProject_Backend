@@ -32,6 +32,20 @@ exports.login = (req, res, next) => {
 
 }
 
+exports.updateToken = (req, res, next) => {
+    console.log("In User Controller Line 36 ");
+    userService.updateToken(req.body, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
+
 exports.userProfile = (req, res, next) => {
 
     return res.status(200).json({ message: "Authorized User!" })
