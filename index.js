@@ -44,8 +44,6 @@ mongoose.connect(dbConfig.DB_CONFIG.db, {
 //     })
 // )
 
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -66,6 +64,7 @@ app.use('/admin', require('./routes/admin.routes'));
 app.use('/demands', require('./routes/demands.routes'));
 app.use('/sales', require('./routes/sales.routes'));
 app.use('/notifications', require('./routes/push-notication.routes'));
+app.use('/complaints', require('./routes/complaints.routes'));
 
 app.use(errors.errorHandler);
 
