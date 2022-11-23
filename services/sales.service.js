@@ -1,5 +1,6 @@
 const { parse } = require('dotenv');
 const order = require('../models/order.model');
+const category = require('../models/category.model');
 
 async function getDailySales(callback) {
 
@@ -138,31 +139,31 @@ async function arrangeWeekly(initialDate, orderList, callback) {
     console.log(initialDate);
     const filteredOrderList = [
         {
-            day1:  {
+            day1: {
                 total: 0,
                 quantity: 0
             },
-            day2:  {
+            day2: {
                 total: 0,
                 quantity: 0
             },
-            day3:  {
+            day3: {
                 total: 0,
                 quantity: 0
             },
-            day4:  {
+            day4: {
                 total: 0,
                 quantity: 0
             },
-            day5:  {
+            day5: {
                 total: 0,
                 quantity: 0
             },
-            day6:  {
+            day6: {
                 total: 0,
                 quantity: 0
             },
-            day7:  {
+            day7: {
                 total: 0,
                 quantity: 0
             },
@@ -226,51 +227,51 @@ async function arrangeMonthly(initialDate, orderList, callback) {
     const year = initialDate.split('/')[2];
     const filteredOrderList = [
         {
-            month1:  {
+            month1: {
                 total: 0,
                 quantity: 0
             },
-            month2:  {
+            month2: {
                 total: 0,
                 quantity: 0
             },
-            month3:  {
+            month3: {
                 total: 0,
                 quantity: 0
             },
-            month4:  {
+            month4: {
                 total: 0,
                 quantity: 0
             },
-            month5:  {
+            month5: {
                 total: 0,
                 quantity: 0
             },
-            month6:  {
+            month6: {
                 total: 0,
                 quantity: 0
             },
-            month7:  {
+            month7: {
                 total: 0,
                 quantity: 0
             },
-            month8:  {
+            month8: {
                 total: 0,
                 quantity: 0
             },
-            month9:  {
+            month9: {
                 total: 0,
                 quantity: 0
             },
-            month10:  {
+            month10: {
                 total: 0,
                 quantity: 0
             },
-            month11:  {
+            month11: {
                 total: 0,
                 quantity: 0
             },
-            month12:  {
+            month12: {
                 total: 0,
                 quantity: 0
             },
@@ -331,8 +332,80 @@ async function arrangeMonthly(initialDate, orderList, callback) {
     return callback(null, filteredOrderList);
 }
 
+
+async function getCategorySales(callback) {
+
+    order.find({}, "orderNo")
+        .populate({
+            path: 'orderProducts',
+            model: 'product',
+            select: 'productPrice',
+            populate: {
+                path: 'category',
+                model: 'category',
+                select: 'categoryName'
+            }
+        }).then((response) => {
+            //console.log(response);
+            arrangeCategory(response, (err, result) => {
+                //console.log(result);
+                return callback(null, result);
+            });
+            //return callback(null, response);
+        }).catch((error) => {
+            console.log(error);
+            return callback(error);
+        });
+}
+
+async function makeCategoryList(callback) {
+    const categoryList = [];
+
+    category.find({}, "categoryName").then((response) => {
+        for (let i = 0; i < response.length; i++) {
+            categoryList.push({
+                categoryName: response[i].categoryName,
+                total: 0,
+                quantity: 0
+            });
+        }
+        //console.log(categoryList);
+        return callback(null, categoryList);
+    }).catch((error) => {
+        console.log(error);
+        return callback(error);
+    });
+}
+
+async function arrangeCategory(categoryData, callback) {
+
+    makeCategoryList((err, categoryList) => {
+        if (err) {
+            console.log(err);
+            return callback(err);
+        } else {
+
+            for (let i = 0; i < categoryData.length; i++) {
+                for (let j = 0; j < categoryData[i].orderProducts.length; j++) {
+                    for (let k = 0; k < categoryList.length; k++) {
+                        if (categoryData[i].orderProducts[j].category.categoryName == categoryList[k].categoryName) {
+                            categoryList[k].total += categoryData[i].orderProducts[j].productPrice;
+                            categoryList[k].quantity += 1;
+                        }
+                    }
+                }
+            }
+            //console.log(categoryList);
+            return callback(null, categoryList);
+        }
+
+    });
+}
+
+
 module.exports = {
     getDailySales,
     getWeeklySales,
-    getMonthlySales
+    getMonthlySales,
+    getCategorySales
 };

@@ -42,3 +42,17 @@ exports.findMonthly = (req, res, next) => {
         }
     });
 }
+
+exports.findByCategory= (req, res, next) => {
+  
+    salesService.getCategorySales((error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}

@@ -8,4 +8,6 @@ router.get('/getWeeklySales', salesController.findWeekly);
 
 router.get('/getMonthlySales', salesController.findMonthly);
 
+router.get('/getCategorySales', salesController.findByCategory);
+
 module.exports = router;
