@@ -6,17 +6,59 @@ const certPath = admin.credential.cert(serviceAccount);
 
 var FCM = new fcm(certPath);
 
-exports.sendPushNotification = (req, res, next) => {
+exports.sendForAds = (req, res, next) => {
 
     try {
         let message = {
             notification: {
-                title: 'Test Notification',
-                body: 'This is a test notification',
+                title: req.body.advertismentTitle,
+                body: req.body.advertismentDesc,
             },
             data: {
-                orderId: '123456',
-                orderStatus: 'pending',
+                advertismentTitle: req.body.advertismentTitle,
+                advertismentDesc: req.body.advertismentDesc,
+                advertismentType: req.body.advertismentType,
+                createdDateTime: req.body.createdDateTime,
+                advertismentAttachment: req.body.advertismentAttachment,
+            },
+            token: req.body.fcm_token,
+        };
+
+        FCM.send(message, function (err, response) {
+            if (err) {
+                return res.status(500).send({
+                    message: err
+                });
+            } else {
+                return res.status(200).send({
+                    message: 'Notification sent successfully.'
+                });
+            }
+        });
+
+    } catch (err) {
+        throw err;
+    }
+};
+
+exports.sendForOffers = (req, res, next) => {
+
+    try {
+        let message = {
+            notification: {
+                title: req.body.advertismentTitle,
+                body: req.body.advertismentDesc,
+            },
+            data: {
+                advertismentTitle: req.body.advertismentTitle,
+                advertismentDesc: req.body.advertismentDesc,
+                advertismentType: req.body.advertismentType,
+                createdDateTime: req.body.createdDateTime,
+                startDate: req.body.startDate,
+                endDate: req.body.endDate,
+                discount: req.body.discount,
+                categoryId: req.body.categoryId,
+                categoryName: req.body.categoryName,
             },
             token: req.body.fcm_token,
         };
@@ -38,3 +80,77 @@ exports.sendPushNotification = (req, res, next) => {
     }
 
 };
+
+
+exports.sendForOrder = (req, res, next) => {
+    try {
+        let message = {
+            notification: {
+                title: "Order Successfully Completed",
+                body: "Thank you for shopping with us.",
+            },
+            data: {
+                orderId: req.body.orderId,
+                orderTotal: req.body.orderTotal,
+                orderDate: req.body.orderDate,
+                orderTime: req.body.orderTime,
+                message: "Thank you for shopping with us.",
+            },
+            token: req.body.fcm_token,
+        };
+
+        FCM.send(message, function (err, response) {
+            if (err) {
+                return res.status(500).send({
+                    message: err
+                });
+            } else {
+                return res.status(200).send({
+                    message: 'Notification sent successfully.'
+                });
+            }
+        });
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+exports.sendForDemand = (req, res, next) => {
+    try {
+        let message = {
+            notification: {
+                title: "Demand Request Status",
+                body: (req.body.demandProgess == 'Accepted') ? "Your demand request has been approved."
+                    : "Your demand request has been rejected.",
+            },
+            data: {
+                demandId: req.body.demandId,
+                demandProgess: req.body.demandProgess,
+                message: req.body.message,
+                createdDateTime: req.body.createdDateTime,
+                response: (req.body.demandProgess == 'Accepted') ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
+                    : "We are sorry to inform you that your demand request has been rejected. Please try again later.",
+            },
+            token: req.body.fcm_token,
+        };
+
+        FCM.send(message, function (err, response) {
+            if (err) {
+                return res.status(500).send({
+                    message: err
+                });
+            } else {
+                return res.status(200).send({
+                    message: 'Notification sent successfully.'
+                });
+            }
+        });
+
+    } catch (err) {
+        throw err;
+    }
+
+};
+
