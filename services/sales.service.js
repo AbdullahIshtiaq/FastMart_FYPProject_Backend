@@ -12,8 +12,11 @@ async function getDailySales(callback) {
         .then((response) => {
             console.log(response[0]);
             arrangeDaily(response, (err, result) => {
-                console.log(result);
-                return callback(null, result);
+                if (err) {
+                    return callback(err);
+                } else {
+                    return callback(null, result);
+                }
             });
         }).catch((error) => {
             console.log(error);
@@ -97,8 +100,11 @@ async function getWeeklySales(callback) {
         .then((response) => {
             //console.log(response);
             arrangeWeekly(weeklyInitailDate, response, (err, result) => {
-                console.log(result);
-                return callback(null, result);
+                if (err) {
+                    return callback(err);
+                } else {
+                    return callback(null, result);
+                }
             });
         }).catch((error) => {
             console.log(error);
@@ -212,8 +218,11 @@ async function getMonthlySales(callback) {
         .then((response) => {
             //console.log(response);
             arrangeMonthly(yearlyInitailDate, response, (err, result) => {
-                console.log(result);
-                return callback(null, result);
+                if (err) {
+                    return callback(err);
+                } else {
+                    return callback(null, result);
+                }
             });
         }).catch((error) => {
             console.log(error);
@@ -348,8 +357,11 @@ async function getCategorySales(callback) {
         }).then((response) => {
             //console.log(response);
             arrangeCategory(response, (err, result) => {
-                //console.log(result);
-                return callback(null, result);
+                if (err) {
+                    return callback(err);
+                } else {
+                    return callback(null, result);
+                }
             });
             //return callback(null, response);
         }).catch((error) => {
