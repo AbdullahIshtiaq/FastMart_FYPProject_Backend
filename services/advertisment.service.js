@@ -2,6 +2,8 @@ const advertisment = require('../models/advertisment.model');
 
 async function createadvertisment(params, callback) {
 
+    console.log(params);
+
     if (!params.advertismentTitle) {
         return callback({
             message: "Title Required"

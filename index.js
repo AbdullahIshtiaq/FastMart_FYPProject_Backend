@@ -17,6 +17,9 @@ const unless = require('express-unless');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.DB_CONFIG.db, {
     useNewUrlParser: true,
@@ -44,11 +47,8 @@ mongoose.connect(dbConfig.DB_CONFIG.db, {
 //     })
 // )
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.json());
 
 app.use(cors());

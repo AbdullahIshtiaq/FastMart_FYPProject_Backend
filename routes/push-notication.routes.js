@@ -6,7 +6,7 @@ router.post('/forAds', pushNotification.sendForAds);
 
 router.post('/forOffers', pushNotification.sendForOrder);
 
-router.post('/forOder', pushNotification.sendForOrder);
+router.post('/forOrder', pushNotification.sendForOrder);
 
 router.post('/forDemand', pushNotification.sendForDemand);
 

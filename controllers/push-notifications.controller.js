@@ -15,6 +15,7 @@ exports.sendForAds = (req, res, next) => {
                 body: req.body.advertismentDesc,
             },
             data: {
+                notificationType: 'Ad',
                 advertismentTitle: req.body.advertismentTitle,
                 advertismentDesc: req.body.advertismentDesc,
                 advertismentType: req.body.advertismentType,
@@ -50,6 +51,7 @@ exports.sendForOffers = (req, res, next) => {
                 body: req.body.advertismentDesc,
             },
             data: {
+                notificationType: 'Offer',
                 advertismentTitle: req.body.advertismentTitle,
                 advertismentDesc: req.body.advertismentDesc,
                 advertismentType: req.body.advertismentType,
@@ -57,7 +59,6 @@ exports.sendForOffers = (req, res, next) => {
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
                 discount: req.body.discount,
-                categoryId: req.body.categoryId,
                 categoryName: req.body.categoryName,
             },
             token: req.body.fcm_token,
@@ -90,7 +91,8 @@ exports.sendForOrder = (req, res, next) => {
                 body: "Thank you for shopping with us.",
             },
             data: {
-                orderId: req.body.orderId,
+                notificationType: 'Order',
+                orderNo: req.body.orderNo,
                 orderTotal: req.body.orderTotal,
                 orderDate: req.body.orderDate,
                 orderTime: req.body.orderTime,
@@ -118,6 +120,7 @@ exports.sendForOrder = (req, res, next) => {
 };
 
 exports.sendForDemand = (req, res, next) => {
+    console.log("In Demand Notification");
     try {
         let message = {
             notification: {
@@ -126,8 +129,9 @@ exports.sendForDemand = (req, res, next) => {
                     : "Your demand request has been rejected.",
             },
             data: {
+                notificationType: 'Demand',
                 demandId: req.body.demandId,
-                demandProgess: req.body.demandProgess,
+                demandProgress: req.body.demandProgress,
                 message: req.body.message,
                 createdDateTime: req.body.createdDateTime,
                 response: (req.body.demandProgess == 'Accepted') ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
