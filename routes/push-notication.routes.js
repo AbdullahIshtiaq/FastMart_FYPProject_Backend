@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/forAds', pushNotification.sendForAds);
 
-router.post('/forOffers', pushNotification.sendForOrder);
+router.post('/forOffers', pushNotification.sendForOffers);
 
 router.post('/forOrder', pushNotification.sendForOrder);
 
