@@ -47,7 +47,7 @@ async function getOnlyAds(callback) {
 async function getOnlyOffers(callback) {
 
     advertisment.find({ advertismentType: "offer" }, "advertismentTitle advertismentDesc advertismentType createdDateTime startDate endDate discount")
-        .populate('categoryId', 'categoryName')
+        .populate("categoryId", "categoryName categoryImg")
         .sort({ createdDateTime: -1 })
         .then((response) => {
             console.log(response);
@@ -61,7 +61,7 @@ async function getOnlyOffers(callback) {
 async function getActiveOffers(callback) {
 
     advertisment.find({ advertismentType: "offer" }, "advertismentTitle advertismentDesc advertismentType createdDateTime startDate endDate discount")
-        .populate('categoryId', 'categoryName')
+        .populate("categoryId", "categoryName categoryImg")
         .sort({ createdDateTime: -1 })
         .then((response) => {
             console.log(response);
