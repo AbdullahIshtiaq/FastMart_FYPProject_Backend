@@ -6,6 +6,8 @@ router.post('/order', orderController.create);
 
 router.post('/posOrder', orderController.createPOSOrder);
 
+router.post('/orderByCash', orderController.createOrderByCash);
+
 router.get('/userOrders', orderController.findOfUser);
 
 router.get('/order', orderController.findAll);

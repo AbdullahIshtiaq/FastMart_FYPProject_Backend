@@ -245,6 +245,32 @@ async function createPOSOrder(params, callback) {
 }
 
 
+async function createOrderByCash(params, callback) {
+
+    if (!params.orderNo) {
+        return callback({
+            message: "Order No Required"
+        }, "");
+    }
+    if (!params.orderProducts) {
+        return callback({
+            message: "Order Product Required"
+        }, "");
+    }
+
+    console.log("Service Line 261 " + params);
+
+    const model = order(params);
+
+    model.save().then((response) => {
+        //console.log("Line 266 " + response);
+        return callback(null, response);
+    }).catch((error) => {
+        //console.log("Line 269 " + error);
+        return callback(error);
+    });
+}
+
 
 async function updateOrder(params, callback) {
     console.log("Order Service Line 142 " + params.transactionId);
@@ -373,7 +399,7 @@ async function getOrders(params, callback) {
         condition["orderNo"] = orderNo;
     }
 
-    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus")
         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
         .then((response) => {
             console.log(response);
@@ -389,7 +415,7 @@ async function find(condition, params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus")
         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
         .limit(perPage)
         .skip(perPage * page)
@@ -407,5 +433,6 @@ module.exports = {
     updateOrder,
     getUserOrders,
     getOrders,
-    createPOSOrder
+    createPOSOrder,
+    createOrderByCash
 };

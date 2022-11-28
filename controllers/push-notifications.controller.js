@@ -96,6 +96,7 @@ exports.sendForOrder = (req, res, next) => {
                 orderTotal: req.body.orderTotal,
                 orderDate: req.body.orderDate,
                 orderTime: req.body.orderTime,
+                paymentMethod: req.body.paymentMethod,
                 message: "Thank you for shopping with us.",
             },
             token: req.body.fcm_token,

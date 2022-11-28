@@ -40,6 +40,42 @@ exports.create = (req, res, next) => {
     });
 }
 
+exports.createOrderByCash = (req, res, next) => {
+    console.log(req.body)
+    var products = req.body.products.split(':')
+    products.pop()
+    console.log(products);
+
+    const dateTime = new Date().toLocaleString();
+
+    var incomingOrder = {
+        orderUser: req.body.userId,
+        orderNo: req.body.orderNo,
+        paymentMethod: req.body.paymentMethod,
+        orderDate: dateTime.split(', ')[0],
+        orderTime: dateTime.split(', ')[1],
+        quantity: req.body.quantity,
+        total: req.body.total,
+        orderProducts: products,
+        orderStatus: "Success",
+    }
+
+    orderService.createOrderByCash(incomingOrder, (error, results) => {
+        if (error) {
+            console.log("In error")
+            //console.log(error);
+            return next(error);
+        } else {
+            console.log("In else")
+            console.log(results)
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
+
 exports.update = (req, res, next) => {
     orderService.updateOrder(req.body, (error, results) => {
         if (error) {
@@ -94,12 +130,16 @@ exports.createPOSOrder = (req, res, next) => {
     products.pop()
     console.log(products.length);
 
+    const dateTime = new Date().toLocaleString();
+
     var model = {
         orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
         quantity: req.body.quantity,
         total: req.body.total,
         orderProducts: products,
+        orderDate: dateTime.split(', ')[0],
+        orderTime: dateTime.split(', ')[1],
         orderStatus: "Success",
     }
 
