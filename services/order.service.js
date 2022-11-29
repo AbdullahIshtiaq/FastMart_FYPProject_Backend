@@ -100,7 +100,7 @@ async function createOrder(incomingOrder, params, callback) {
                                         console.log("In create order Line 105");
                                         model.paymentIntentId = result.id;
                                         model.client_secret = result.client_secret;
-                                        saveOrderDB(incomingOrder,  params.userId, (err, result) => {
+                                        saveOrderDB(incomingOrder, params.userId, (err, result) => {
                                             if (err) {
                                                 console.log("In create order Line 111");
                                                 return callback(err);
@@ -190,7 +190,7 @@ async function saveOrderDB(incomingOrder, params, callback) {
     console.log("In create order Line 160");
 
     const dateTime = new Date().toLocaleString();
-    console.log("In save order Line 193"); 
+    console.log("In save order Line 193");
 
     console.log(dateTime);
 
@@ -416,7 +416,13 @@ async function find(condition, params, callback) {
     let page = (Math.abs(params.page) || 1) - 1;
 
     order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus")
-        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
+        .populate({
+            path: "orderProducts", select: "productBarcode productId productName productImg productShortDesc productPrice",
+            populate: {
+                path: 'category',
+                select: "categoryName categoryImg"
+            },
+        })
         .limit(perPage)
         .skip(perPage * page)
         .then((response) => {
