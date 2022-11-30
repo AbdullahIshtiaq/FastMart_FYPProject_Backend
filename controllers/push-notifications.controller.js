@@ -11,16 +11,16 @@ exports.sendForAds = (req, res, next) => {
     try {
         let message = {
             notification: {
-                title: req.body.advertismentTitle,
-                body: req.body.advertismentDesc,
+                title: req.body.advertismentTitle.toString(),
+                body: req.body.advertismentDesc.toString(),
             },
             data: {
                 notificationType: 'Ad',
-                advertismentTitle: req.body.advertismentTitle,
-                advertismentDesc: req.body.advertismentDesc,
-                advertismentType: req.body.advertismentType,
-                createdDateTime: req.body.createdDateTime,
-                advertismentAttachment: req.body.advertismentAttachment,
+                advertismentTitle: req.body.advertismentTitle.toString(),
+                advertismentDesc: req.body.advertismentDesc.toString(),
+                advertismentType: req.body.advertismentType.toString(),
+                createdDateTime: req.body.createdDateTime.toString(),
+                advertismentAttachment: req.body.advertismentAttachment.toString(),
             },
             token: req.body.fcm_token,
         };
@@ -47,19 +47,19 @@ exports.sendForOffers = (req, res, next) => {
     try {
         let message = {
             notification: {
-                title: req.body.advertismentTitle,
-                body: req.body.advertismentDesc,
+                title: req.body.advertismentTitle.toString(),
+                body: req.body.advertismentDesc.toString(),
             },
             data: {
                 notificationType: 'Offer',
-                advertismentTitle: req.body.advertismentTitle,
-                advertismentDesc: req.body.advertismentDesc,
-                advertismentType: req.body.advertismentType,
-                createdDateTime: req.body.createdDateTime,
-                startDate: req.body.startDate,
-                endDate: req.body.endDate,
-                discount: req.body.discount,
-                categoryName: req.body.categoryName,
+                advertismentTitle: req.body.advertismentTitle.toString(),
+                advertismentDesc: req.body.advertismentDesc.toString(),
+                advertismentType: req.body.advertismentType.toString(),
+                createdDateTime: req.body.createdDateTime.toString(),
+                startDate: req.body.startDate.toString(),
+                endDate: req.body.endDate.toString(),
+                discount: req.body.discount.toString(),
+                categoryName: req.body.categoryName.toString(),
             },
             token: req.body.fcm_token,
         };
@@ -92,11 +92,11 @@ exports.sendForOrder = (req, res, next) => {
             },
             data: {
                 notificationType: 'Order',
-                orderNo: req.body.orderNo,
-                orderTotal: req.body.orderTotal,
-                orderDate: req.body.orderDate,
-                orderTime: req.body.orderTime,
-                paymentMethod: req.body.paymentMethod,
+                orderNo: req.body.orderNo.toString(),
+                orderTotal: req.body.orderTotal.toString(),
+                orderDate: req.body.orderDate.toString(),
+                orderTime: req.body.orderTime.toString(),
+                paymentMethod: req.body.paymentMethod.toString(),
                 message: "Thank you for shopping with us.",
             },
             token: req.body.fcm_token,
@@ -126,16 +126,16 @@ exports.sendForDemand = (req, res, next) => {
         let message = {
             notification: {
                 title: "Demand Request Status",
-                body: (req.body.demandProgess == 'Accepted') ? "Your demand request has been approved."
+                body: (req.body.demandProgess.toString() == 'Accepted') ? "Your demand request has been approved."
                     : "Your demand request has been rejected.",
             },
             data: {
                 notificationType: 'Demand',
-                demandId: req.body.demandId,
-                demandProgress: req.body.demandProgress,
-                message: req.body.message,
-                createdDateTime: req.body.createdDateTime,
-                response: (req.body.demandProgess == 'Accepted') ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
+                demandId: req.body.demandId.toString(),
+                demandProgress: req.body.demandProgress.toString(),
+                message: req.body.message.toString(),
+                createdDateTime: req.body.createdDateTime.toString(),
+                response: (req.body.demandProgess.toString() == 'Accepted') ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
                     : "We are sorry to inform you that your demand request has been rejected. Please try again later.",
             },
             token: req.body.fcm_token,
