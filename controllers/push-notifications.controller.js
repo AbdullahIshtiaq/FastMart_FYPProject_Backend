@@ -123,10 +123,11 @@ exports.sendForOrder = (req, res, next) => {
 exports.sendForDemand = (req, res, next) => {
     console.log("In Demand Notification");
     try {
+        console.log(req.body);
         let message = {
             notification: {
                 title: "Demand Request Status",
-                body: (req.body.demandProgess.toString() == 'Accepted') ? "Your demand request has been approved."
+                body: (req.body.demandProgress.toString() == "Accepted") ? "Your demand request has been approved."
                     : "Your demand request has been rejected.",
             },
             data: {
@@ -135,11 +136,13 @@ exports.sendForDemand = (req, res, next) => {
                 demandProgress: req.body.demandProgress.toString(),
                 message: req.body.message.toString(),
                 createdDateTime: req.body.createdDateTime.toString(),
-                response: (req.body.demandProgess.toString() == 'Accepted') ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
+                response: (req.body.demandProgress.toString() == "Accepted") ? "We are happpy to inform you that your demand request has been approved. We will act on it soon."
                     : "We are sorry to inform you that your demand request has been rejected. Please try again later.",
             },
             token: req.body.fcm_token,
         };
+
+        console.log(message);
 
         FCM.send(message, function (err, response) {
             if (err) {
