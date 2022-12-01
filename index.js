@@ -66,6 +66,7 @@ app.use('/sales', require('./routes/sales.routes'));
 app.use('/notifications', require('./routes/push-notication.routes'));
 app.use('/complaints', require('./routes/complaints.routes'));
 app.use('/advertisments', require('./routes/advertisments.routes'));
+app.use('/reports', require('./routes/reports.routes'));
 
 app.use(errors.errorHandler);
 

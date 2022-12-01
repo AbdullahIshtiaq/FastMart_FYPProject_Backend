@@ -29,7 +29,7 @@ const productSchema = new schema({
         type: Number,
         required: true,
     },
-    productSalePrice: {
+    productRetailPrice: {
         type: Number,
         required: true,
         default: 0

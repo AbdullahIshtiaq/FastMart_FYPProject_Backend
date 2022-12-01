@@ -203,6 +203,7 @@ async function saveOrderDB(incomingOrder, params, callback) {
         orderDate: dateTime.split(', ')[0],
         orderTime: dateTime.split(', ')[1],
         total: incomingOrder.total,
+        orderDiscount: incomingOrder.orderDiscount,
         orderStatus: "pending",
     });
 
@@ -399,8 +400,8 @@ async function getOrders(params, callback) {
         condition["orderNo"] = orderNo;
     }
 
-    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus")
-        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
+        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice")
         .then((response) => {
             console.log(response);
             return callback(null, response);
@@ -415,9 +416,9 @@ async function find(condition, params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus")
+    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
         .populate({
-            path: "orderProducts", select: "productBarcode productId productName productImg productShortDesc productPrice",
+            path: "orderProducts", select: "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice",
             populate: {
                 path: 'category',
                 select: "categoryName categoryImg"

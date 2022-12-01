@@ -56,7 +56,7 @@ async function getProducts(params, callback) {
     let perPage = Math.abs(params.pageSize) || dbConfig.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productRetailPrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
         .limit(perPage)
         .skip(perPage * page)
@@ -80,7 +80,7 @@ async function getProductByBarcode(params, callback) {
         //     $regex: new RegExp(productBarcode), $options: "i"
         // };
 
-        Product.find({productBarcode: productBarcode}, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
+        Product.find({productBarcode: productBarcode}, "productName productShortDesc productPrice productRetailPrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
             .then((response) => {
                 console.log(response);
@@ -151,7 +151,7 @@ async function getProductsForAdmin(callback) {
 
     var condition = {};
 
-    Product.find(condition, "productName productShortDesc productPrice productSalePrice productImg productBarcode stockStatus")
+    Product.find(condition, "productName productShortDesc productPrice productRetailPrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
         .then((response) => {
             console.log(response);

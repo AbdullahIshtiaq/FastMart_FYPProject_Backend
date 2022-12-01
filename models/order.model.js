@@ -42,6 +42,10 @@ const orderSchema = new schema({
     },
     transactionId: {
         type: String,
+    },
+    orderDiscount: {
+        type: Number,
+        default: 0,
     }
 });
 

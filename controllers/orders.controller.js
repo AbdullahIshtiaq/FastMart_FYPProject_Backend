@@ -1,6 +1,7 @@
 const orderService = require('../services/order.service');
 
 exports.create = (req, res, next) => {
+    console.log("In line 4 Create Order");
     console.log(req.body)
     var products = req.body.products.split(':')
     products.pop()
@@ -20,6 +21,7 @@ exports.create = (req, res, next) => {
         orderDate: req.body.orderDate,
         quantity: req.body.quantity,
         total: req.body.total,
+        orderDiscount: req.body.orderDiscount,
         orderProducts: products
     }
 
@@ -57,6 +59,7 @@ exports.createOrderByCash = (req, res, next) => {
         quantity: req.body.quantity,
         total: req.body.total,
         orderProducts: products,
+        orderDiscount: req.body.orderDiscount,
         orderStatus: "Success",
     }
 
