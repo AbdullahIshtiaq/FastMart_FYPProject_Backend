@@ -10,4 +10,6 @@ router.post('/tokenUpdate', userController.updateToken);
 
 router.get('/user-profile', userController.userProfile);
 
+router.get('/getUsers', userController.getAll);
+
 module.exports = router;

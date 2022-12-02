@@ -63,8 +63,19 @@ async function updateToken(params, callback) {
         });
 }
 
+async function getAll(callback) {
+
+    User.find({}, "username email date").then((response) => {
+        return callback(null, response);
+    }).catch((error) => {
+        return callback(error);
+    });
+
+}
+
 module.exports = {
     login,
     register,
-    updateToken
+    updateToken,
+    getAll
 }
