@@ -12,6 +12,16 @@ const userSchema = new schema({
         required: true,
         unique: true
     },
+    userImage: {
+        type: String,
+        default: "",
+    },
+    phone:{
+        type: String,
+    },
+    city: {
+        type: String,
+    },
     password: {
         type: String,
         required: true,
@@ -26,6 +36,10 @@ const userSchema = new schema({
     fcmToken: {
         type: String,
     },
+    role: {
+        type: String,
+        default: 'customer'
+    }
 });
 
 userSchema.set("toJSON", {

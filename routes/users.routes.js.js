@@ -12,4 +12,8 @@ router.get('/user-profile', userController.userProfile);
 
 router.get('/getUsers', userController.getAll);
 
+router.post('/updateProfile', userController.updateProfile);
+
+router.post('/updateProfileImg', userController.updateProfileImage);
+
 module.exports = router;

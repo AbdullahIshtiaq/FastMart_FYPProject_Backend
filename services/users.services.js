@@ -33,6 +33,14 @@ async function register(params, callback) {
         return callback({
             message: "Email Required"
         })
+    } else if (params.password === undefined) {
+        return callback({
+            message: "Password Required"
+        })
+    } else if (params.username === undefined) {
+        return callback({
+            message: "Username Required"
+        })
     }
     const user = new User(params);
 
@@ -63,9 +71,54 @@ async function updateToken(params, callback) {
         });
 }
 
+async function updateProfile(body, callback) {
+    console.log("In User Service Line 75 ");
+    //console.log(body);
+    var model = {
+        username: body.username,
+        phone: body.phone,
+        city: body.city,
+        phone: body.phone,
+    };
+
+    User.findByIdAndUpdate(body.userId, model, { useFindAndModify: true })
+        .then((response) => {
+            if (!response) {
+                return callback("User Profile Update Failed");
+            } else {
+                console.log("In User Service Line 88 ");
+                console.log(response);
+                return callback(null, response);
+            }
+        })
+        .catch((error) => {
+            return callback(error);
+        });
+}
+
+async function updateProfileImage(model, userId, callback) {
+    console.log("In User Service Line 95 ");
+    //console.log(body);
+    // var model = {
+    //     fcmToken: params.fcmToken
+    // };
+
+    User.findByIdAndUpdate(userId, model, { useFindAndModify: true })
+        .then((response) => {
+            if (!response) {
+                return callback("User Profile Update Failed");
+            } else {
+                return callback(null, response);
+            }
+        })
+        .catch((error) => {
+            return callback(error);
+        });
+}
+
 async function getAll(callback) {
 
-    User.find({}, "username email date").then((response) => {
+    User.find({role: 'customer'}, "username email userImage phone city date").then((response) => {
         return callback(null, response);
     }).catch((error) => {
         return callback(error);
@@ -77,5 +130,7 @@ module.exports = {
     login,
     register,
     updateToken,
-    getAll
+    getAll,
+    updateProfile,
+    updateProfileImage
 }
