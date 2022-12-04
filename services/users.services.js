@@ -118,12 +118,53 @@ async function updateProfileImage(model, userId, callback) {
 
 async function getAll(callback) {
 
-    User.find({role: 'customer'}, "username email userImage phone city date").then((response) => {
+    User.find({ role: 'customer' }, "username email userImage phone city date").then((response) => {
         return callback(null, response);
     }).catch((error) => {
         return callback(error);
     });
 
+}
+
+async function changePassword(params, callback) {
+    console.log("In User Service Line 130");
+    console.log(params);
+
+    const user = await User.find({ _id: params.userId });
+
+    if (user != null) {
+        console.log("In User Service Line 136 ");
+        console.log(params.oldPassword);
+        console.log(user[0].password);
+        if (bcryptjs.compareSync(params.oldPassword, user[0].password)) {
+
+            const salt = bcryptjs.genSaltSync(10);
+            params.newPassword = bcryptjs.hashSync(params.newPassword, salt);
+
+            var model = {
+                password: params.newPassword
+            };
+
+            User.findByIdAndUpdate(params.userId, model, { useFindAndModify: false })
+            .then((response) => {
+                if (!response) {
+                    return callback("User Password Update Failed");
+                } else {
+                    return callback(null, "User Password Updated Successfully");
+                }               
+            }).catch((error) => {
+                return callback(error);
+            });
+        } else {
+            return callback({
+                message: "Invalid Email/Password!"
+            })
+        }
+    } else {
+        return callback({
+            message: "Invalid Email/Password!"
+        })
+    }
 }
 
 module.exports = {
@@ -132,5 +173,6 @@ module.exports = {
     updateToken,
     getAll,
     updateProfile,
-    updateProfileImage
+    updateProfileImage,
+    changePassword
 }

@@ -100,6 +100,30 @@ exports.getAll = (req, res, next) => {
     });
 }
 
+exports.changePassword = (req, res, next) => {
+    console.log("In User Controller Line 50 ");
+    userService.changePassword(req.body, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            if (results == "User Password Updated Successfully") {
+                console.log("In User Controller Line 110");
+                res.status(200).send({
+                    message: "Success",
+                    data: results,
+                });
+            }
+            else {
+                console.log("In User Controller Line 117");
+                res.status(400).send({
+                    message: "Failed",
+                    data: results,
+                });
+            }
+        }
+    });
+}
+
 exports.userProfile = (req, res, next) => {
     return res.status(200).json({ message: "Authorized User!" })
 }

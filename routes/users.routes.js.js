@@ -16,4 +16,6 @@ router.post('/updateProfile', userController.updateProfile);
 
 router.post('/updateProfileImg', userController.updateProfileImage);
 
+router.post('/changePassword', userController.changePassword);
+
 module.exports = router;
