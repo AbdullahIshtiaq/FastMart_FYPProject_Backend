@@ -72,14 +72,7 @@ async function getProducts(params, callback) {
 async function getProductByBarcode(params, callback) {
 
     const productBarcode = params.productBarcode;
-
-    // var condition = {};
-
     if (productBarcode) {
-        // condition["productBarcode"] = {
-        //     $regex: new RegExp(productBarcode), $options: "i"
-        // };
-
         Product.find({productBarcode: productBarcode}, "productName productShortDesc productPrice productRetailPrice productImg productBarcode stockStatus")
         .populate("category", "categoryName categoryImg")
             .then((response) => {

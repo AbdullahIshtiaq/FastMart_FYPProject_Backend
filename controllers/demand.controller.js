@@ -29,6 +29,7 @@ exports.create = (req, res, next) => {
 }
 
 exports.find = (req, res, next) => {
+    console.log(req.query);
 
     var model = {
         status: req.query.status,

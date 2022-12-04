@@ -31,7 +31,7 @@ async function createDemand(params, callback) {
 async function getDemands(params, callback) {
 
     const demandStatus = params.status;
-    const demandUserId = params.userId;
+    const demandUserId = params.demandUserId;
     const demandProgress = params.progress;
 
     var condition = {};
@@ -48,11 +48,13 @@ async function getDemands(params, callback) {
         condition["demandProgress"] = demandProgress;
     }
 
+    console.log(condition);
+
     Demand.find(condition, "demandProduct message demandStatus demandProgress createdDateTime")
         .populate("demandUserId", "username")
         .sort({ createdDateTime: -1 })
         .then((response) => {
-            console.log(response);
+            //console.log(response);
             return callback(null, response);
         }).catch((error) => {
             console.log(error);

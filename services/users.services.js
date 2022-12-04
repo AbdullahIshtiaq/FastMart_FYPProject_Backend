@@ -98,16 +98,13 @@ async function updateProfile(body, callback) {
 
 async function updateProfileImage(model, userId, callback) {
     console.log("In User Service Line 95 ");
-    //console.log(body);
-    // var model = {
-    //     fcmToken: params.fcmToken
-    // };
-
-    User.findByIdAndUpdate(userId, model, { useFindAndModify: true })
+    User.findOneAndUpdate({_id: userId}, {$set: model}, {new: true} )
         .then((response) => {
             if (!response) {
                 return callback("User Profile Update Failed");
             } else {
+                console.log("In User Service Line 111");
+                console.log(response);
                 return callback(null, response);
             }
         })

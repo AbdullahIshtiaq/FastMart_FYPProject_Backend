@@ -401,7 +401,7 @@ async function getOrders(params, callback) {
     }
 
     order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
-        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice")
+        .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice stockStatus")
         .then((response) => {
             console.log(response);
             return callback(null, response);
@@ -418,7 +418,7 @@ async function find(condition, params, callback) {
 
     order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
         .populate({
-            path: "orderProducts", select: "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice",
+            path: "orderProducts", select: "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice stockStatus",
             populate: {
                 path: 'category',
                 select: "categoryName categoryImg"
