@@ -88,7 +88,7 @@ exports.updateProfileImage = (req, res, next) => {
 
 exports.getAll = (req, res, next) => {
     console.log("In User Controller Line 91");
-    userService.getAll((error, results) => {
+    userService.getAll(req.query, (error, results) => {
         if (error) {
             return next(error);
         } else {

@@ -113,9 +113,18 @@ async function updateProfileImage(model, userId, callback) {
         });
 }
 
-async function getAll(callback) {
+async function getAll(params, callback) {
 
-    User.find({ role: 'customer' }, "username email userImage phone city date").then((response) => {
+    const username = params.username;
+    var condition ={
+        role: 'customer'
+    };
+
+    if (username != null) {
+        condition['username'] = { $regex: new RegExp(username), $options: "i" };
+    }
+
+    User.find(condition, "username email userImage phone city date").then((response) => {
         return callback(null, response);
     }).catch((error) => {
         return callback(error);
