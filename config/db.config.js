@@ -1,6 +1,6 @@
 DB_CONFIG = {
-    db: "mongodb+srv://FastMart_DB:pT5Rwf0qTgGxd6g2@fastmartcluster.niafikb.mongodb.net/?retryWrites=true&w=majority",
-    //db: "mongodb://localhost/MyDatabase",
+    //db: "mongodb+srv://FastMart_DB:pT5Rwf0qTgGxd6g2@fastmartcluster.niafikb.mongodb.net/?retryWrites=true&w=majority",
+    db: "mongodb://localhost/MyDatabase",
     PAGE_SIZE: 10
 };
 

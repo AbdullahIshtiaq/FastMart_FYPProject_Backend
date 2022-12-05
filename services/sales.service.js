@@ -93,23 +93,54 @@ async function getWeeklySales(callback) {
     //const currentDate = "03/10/2022";
 
     const weeklyInitailDate = getWeekDate(currentDate);
+    //const weeklyInitailDate = "28/11/2022";
 
     console.log(weeklyInitailDate);
 
-    order.find({ orderDate: { $gte: weeklyInitailDate, $lte: currentDate } }, "orderNo total orderDate orderTime quantity")
-        .then((response) => {
-            //console.log(response);
-            arrangeWeekly(weeklyInitailDate, response, (err, result) => {
-                if (err) {
-                    return callback(err);
-                } else {
-                    return callback(null, result);
-                }
+    if (weeklyInitailDate.split('/')[1] == currentDate.split('/')[1]) {
+        console.log("In if");
+        order.find({ orderDate: { $gt: weeklyInitailDate, $lte: currentDate } }, "orderNo total orderDate orderTime quantity")
+            .then((response) => {
+                console.log(response);
+                arrangeWeekly(weeklyInitailDate, response, (err, result) => {
+                    if (err) {
+                        return callback(err);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+            }).catch((error) => {
+                console.log(error);
+                return callback(error);
             });
-        }).catch((error) => {
-            console.log(error);
-            return callback(error);
-        });
+    } else {
+        console.log("In else");
+        const secondDate = "01" + "/" + currentDate.split('/')[1] + "/" + currentDate.split('/')[2];
+        order.find({ orderDate: { $gt: weeklyInitailDate } }, "orderNo total orderDate orderTime quantity")
+            .then((initialResponse) => {
+                //console.log(initialResponse);
+                order.find({ orderDate: { $gt: secondDate } }, "orderNo total orderDate orderTime quantity")
+                    .then((secondResponse) => {
+                        //console.log(secondResponse);
+                        var array = [];
+                        array = array.concat(initialResponse);
+                        array = array.concat(secondResponse);
+                        arrangeWeekly(weeklyInitailDate, array, (err, result) => {
+                            if (err) {
+                                return callback(err);
+                            } else {
+                                return callback(null, result);
+                            }
+                        });
+                    }).catch((error) => {
+                        console.log(error);
+                        return callback(error);
+                    });
+            }).catch((error) => {
+                console.log(error);
+                return callback(error);
+            });
+    }
 }
 
 function getWeekDate(currentDate) {
@@ -142,7 +173,8 @@ function getWeekDate(currentDate) {
 
 async function arrangeWeekly(initialDate, orderList, callback) {
     console.log("In Line 122");
-    console.log(initialDate);
+    //console.log(orderList);
+    //console.log(initialDate);
     const filteredOrderList = [
         {
             day1: {
@@ -175,32 +207,40 @@ async function arrangeWeekly(initialDate, orderList, callback) {
             },
         }
     ];
+    const dateArray = initialDate.split('/');
+    const initialTime = ((new Date(dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0] + "T00:00:00").getTime()) / 1000);
+    //console.log('initialTime: ' + initialTime);
 
     for (let i = 0; i < orderList.length; i++) {
-        var date = orderList[i].orderDate.toString();
+        var vals = orderList[i].orderDate.toString().split('/');
+        var date = new Date(vals[2] + "-" + vals[1] + "-" + vals[0] + "T00:00:00");
+        var currentSeconds = date.getTime() / 1000;
         //console.log(date);
-        if (date == ((parseInt(initialDate.split('/')[0]) + 1) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        //console.log(currentSeconds);
+
+        if (initialTime < currentSeconds && currentSeconds <= (initialTime + 86400)) {
             filteredOrderList[0].day1.total += orderList[i].total;
             filteredOrderList[0].day1.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 2) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + 86400) < currentSeconds && currentSeconds <= (initialTime + (86400 * 2))) {
             filteredOrderList[0].day2.total += orderList[i].total;
             filteredOrderList[0].day2.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 3) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + (86400 * 2)) < currentSeconds && currentSeconds <= (initialTime + (86400 * 3))) {
             filteredOrderList[0].day3.total += orderList[i].total;
             filteredOrderList[0].day3.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 4) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + (86400 * 3)) < currentSeconds && currentSeconds <= (initialTime + (86400 * 4))) {
             filteredOrderList[0].day4.total += orderList[i].total;
             filteredOrderList[0].day4.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 5) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + (86400 * 4)) < currentSeconds && currentSeconds <= (initialTime + (86400 * 5))) {
             filteredOrderList[0].day5.total += orderList[i].total;
             filteredOrderList[0].day5.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 6) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + (86400 * 5)) < currentSeconds && currentSeconds <= (initialTime + (86400 * 6))) {
             filteredOrderList[0].day6.total += orderList[i].total;
             filteredOrderList[0].day6.quantity += orderList[i].quantity;
-        } else if (date == ((parseInt(initialDate.split('/')[0]) + 7) + "/" + initialDate.split('/')[1] + "/" + initialDate.split('/')[2])) {
+        } else if ((initialTime + (86400 * 6)) < currentSeconds && currentSeconds <= (initialTime + (86400 * 7))) {
             filteredOrderList[0].day7.total += orderList[i].total;
             filteredOrderList[0].day7.quantity += orderList[i].quantity;
         }
+
     }
     //console.log(filteredOrderList);
     return callback(null, filteredOrderList);
@@ -340,7 +380,6 @@ async function arrangeMonthly(initialDate, orderList, callback) {
     //console.log(filteredOrderList);
     return callback(null, filteredOrderList);
 }
-
 
 async function getCategorySales(callback) {
 
