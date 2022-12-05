@@ -9,7 +9,8 @@ exports.register = (req, res, next) => {
     req.body.password = bcryptjs.hashSync(password, salt);
     userService.register(req.body, (error, result) => {
         if (error) { return next(error); }
-
+        console.log("In User Controller Line 12");
+        console.log(result);
         return res.status(200).send({
             message: "Success",
             data: result

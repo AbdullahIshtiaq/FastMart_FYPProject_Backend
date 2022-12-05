@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const dbConfig = require('./config/db.config');
 
 const auth = require('./middlewares/auth');
+
 const errors = require('./middlewares/error');
 
 const swaggerUi = require('swagger-ui-express'), swaggerDocument = require('./swagger.json');
@@ -20,22 +21,35 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.DB_CONFIG.db, {
+const connectionParams={
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true 
+}
+mongoose.connect(dbConfig.DB_CONFIG.db,connectionParams)
+    .then( () => {
+        console.log('Connected to the database ')
+    })
+    .catch( (err) => {
+        console.error(`Error connecting to the database. n${err}`);
+    });
 
-}).then(
-    () => {
-        console.log('Database Connented');
-    },
 
-    (error) => {
-        console.log(dbConfig.DB_CONFIG.db);
-        console.log('Database Not Connented: ' + error);
-    }
+// mongoose.Promise = global.Promise;
+// mongoose.connect(dbConfig.DB_CONFIG.db, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
 
-);
+// }).then(
+//     () => {
+//         console.log('Database Connented');
+//     },
+
+//     (error) => {
+//         console.log(dbConfig.DB_CONFIG.db);
+//         console.log('Database Not Connented: ' + error);
+//     }
+
+// );
 
 // auth.authenticateToken.unless = unless;
 // app.use(
