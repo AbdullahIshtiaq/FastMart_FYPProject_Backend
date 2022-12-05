@@ -1,5 +1,6 @@
 var admin = require("firebase-admin");
 var fcm = require("fcm-notification");
+var user = require("../models/user.model");
 
 var serviceAccount = require("../config/push-notification-Key.json");
 const certPath = admin.credential.cert(serviceAccount);
@@ -9,34 +10,44 @@ var FCM = new fcm(certPath);
 exports.sendForAds = (req, res, next) => {
 
     try {
-        let message = {
-            notification: {
-                title: req.body.advertismentTitle.toString(),
-                body: req.body.advertismentDesc.toString(),
-            },
-            data: {
-                notificationType: 'Ad',
-                advertismentTitle: req.body.advertismentTitle.toString(),
-                advertismentDesc: req.body.advertismentDesc.toString(),
-                advertismentType: req.body.advertismentType.toString(),
-                createdDateTime: req.body.createdDateTime.toString(),
-                advertismentAttachment: req.body.advertismentAttachment.toString(),
-            },
-            token: req.body.fcm_token,
-        };
 
-        FCM.send(message, function (err, response) {
-            if (err) {
-                return res.status(500).send({
-                    message: err
+        user.find({ role: "customer" }).then((result) => {
+            if (result.length > 0) {
+                result.forEach((item) => {
+                    if (item.fcmToken != null && item.fcmToken != undefined && item.fcmToken != "") {
+                        let message = {
+                            notification: {
+                                title: req.body.advertismentTitle.toString(),
+                                body: req.body.advertismentDesc.toString(),
+                            },
+                            data: {
+                                notificationType: 'Ad',
+                                advertismentTitle: req.body.advertismentTitle.toString(),
+                                advertismentDesc: req.body.advertismentDesc.toString(),
+                                advertismentType: req.body.advertismentType.toString(),
+                                createdDateTime: req.body.createdDateTime.toString(),
+                                advertismentAttachment: req.body.advertismentAttachment.toString(),
+                            },
+                            token: item.fcmToken,
+                        };
+
+                        FCM.send(message, function (err, response) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('Notification sent successfully.');
+                            }
+                        });
+                    }
                 });
-            } else {
                 return res.status(200).send({
-                    message: 'Notification sent successfully.'
+                    message: 'All Notifications sent successfully.'
                 });
             }
-        });
 
+        }).catch((err) => {
+            console.log(err);
+        });
     } catch (err) {
         throw err;
     }
@@ -45,35 +56,45 @@ exports.sendForAds = (req, res, next) => {
 exports.sendForOffers = (req, res, next) => {
 
     try {
-        let message = {
-            notification: {
-                title: req.body.advertismentTitle.toString(),
-                body: req.body.advertismentDesc.toString(),
-            },
-            data: {
-                notificationType: 'Offer',
-                advertismentTitle: req.body.advertismentTitle.toString(),
-                advertismentDesc: req.body.advertismentDesc.toString(),
-                advertismentType: req.body.advertismentType.toString(),
-                createdDateTime: req.body.createdDateTime.toString(),
-                startDate: req.body.startDate.toString(),
-                endDate: req.body.endDate.toString(),
-                discount: req.body.discount.toString(),
-                categoryName: req.body.categoryName.toString(),
-            },
-            token: req.body.fcm_token,
-        };
+        user.find({ role: "customer" }).then((result) => {
+            if (result.length > 0) {
+                result.forEach((item) => {
+                    if (item.fcmToken != null && item.fcmToken != undefined && item.fcmToken != "") {
+                        let message = {
+                            notification: {
+                                title: req.body.advertismentTitle.toString(),
+                                body: req.body.advertismentDesc.toString(),
+                            },
+                            data: {
+                                notificationType: 'Offer',
+                                advertismentTitle: req.body.advertismentTitle.toString(),
+                                advertismentDesc: req.body.advertismentDesc.toString(),
+                                advertismentType: req.body.advertismentType.toString(),
+                                createdDateTime: req.body.createdDateTime.toString(),
+                                startDate: req.body.startDate.toString(),
+                                endDate: req.body.endDate.toString(),
+                                discount: req.body.discount.toString(),
+                                categoryName: req.body.categoryName.toString(),
+                            },
+                            token: item.fcmToken,
+                        };
 
-        FCM.send(message, function (err, response) {
-            if (err) {
-                return res.status(500).send({
-                    message: err
+                        FCM.send(message, function (err, response) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('Notification sent successfully.');
+                            }
+                        });
+                    }
                 });
-            } else {
                 return res.status(200).send({
-                    message: 'Notification sent successfully.'
+                    message: 'All Notifications sent successfully.'
                 });
             }
+
+        }).catch((err) => {
+            console.log(err);
         });
 
     } catch (err) {
