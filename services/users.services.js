@@ -131,6 +131,15 @@ async function getAll(params, callback) {
 
 }
 
+async function getUserById(params, callback) {
+    User.find({_id: params}).then((response) => {
+        return callback(null, response);
+    }).catch((error) => {
+        return callback(error);
+    });
+
+}
+
 async function changePassword(params, callback) {
     console.log("In User Service Line 130");
     console.log(params);
@@ -179,5 +188,6 @@ module.exports = {
     getAll,
     updateProfile,
     updateProfileImage,
-    changePassword
+    changePassword,
+    getUserById
 }

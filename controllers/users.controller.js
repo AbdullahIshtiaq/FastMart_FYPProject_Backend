@@ -90,7 +90,24 @@ exports.updateProfileImage = (req, res, next) => {
 
 exports.getAll = (req, res, next) => {
     console.log("In User Controller Line 91");
-    userService.getAll(req.query, (error, results) => {
+    userService.getUserById(req.query, (error, results) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.status(200).send({
+                message: "Success",
+                data: results,
+            });
+        }
+    });
+}
+
+
+exports.getUserById = (req, res, next) => {
+    console.log("In User Controller Line 107");
+    const userId = req.params.userId;
+
+    userService.getAll(userId, (error, results) => {
         if (error) {
             return next(error);
         } else {
@@ -103,7 +120,7 @@ exports.getAll = (req, res, next) => {
 }
 
 exports.changePassword = (req, res, next) => {
-    console.log("In User Controller Line 50 ");
+    console.log("In User Controller Line 123");
     userService.changePassword(req.body, (error, results) => {
         if (error) {
             return next(error);
