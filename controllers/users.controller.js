@@ -105,8 +105,9 @@ exports.getAll = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
     console.log("In User Controller Line 107");
-    const userId = req.params.userId;
-
+    console.log(req.params);
+    const userId = req.params.id;
+    console.log(userId);
     userService.getUserById(userId, (error, results) => {
         if (error) {
             return next(error);
