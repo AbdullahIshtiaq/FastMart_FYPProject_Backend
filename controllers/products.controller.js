@@ -127,8 +127,12 @@ exports.update = (req, res, next) => {
 
             productService.updateProduct(model, (error, results) => {
                 if (error) {
+                    console.log("In Update Product Error");
+                    console.log(error);
                     return next(error);
                 } else {
+                    console.log("In Update Product Response");
+                    console.log(results);
                     res.status(200).send({
                         message: "Success",
                         data: results,

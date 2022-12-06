@@ -111,9 +111,11 @@ async function updateProduct(params, callback) {
     Product.findByIdAndUpdate(productId, params, { useFindAndModify: false })
         .then((response) => {
             if (!response) {
+                console.log("Not Found Product By ID: " + productId);
                 callback("Not Found Product By ID: " + productId);
             }
             else {
+                console.log("Line 118: Product Updated Successfully");
                 callback(null, response);
             }
         }).catch((error) => {
