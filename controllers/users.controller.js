@@ -111,6 +111,8 @@ exports.getUserById = (req, res, next) => {
         if (error) {
             return next(error);
         } else {
+            console.log("In User Controller Line 114");
+            console.log(results);
             res.status(200).send({
                 message: "Success",
                 data: results,
