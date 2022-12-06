@@ -45,7 +45,7 @@ async function getCategories(params, callback) {
 
 
 async function getCategoriesForAdmin(callback) {
-    Category.find({}, "categoryName categoryImg")
+    Category.find({}, "categoryName categoryImg categoryDesc")
         .then((response) => {
             console.log(response);
             return callback(null, response);
