@@ -400,8 +400,9 @@ async function getOrders(params, callback) {
         condition["orderNo"] = orderNo;
     }
 
-    order.find(condition, "orderNo orderUser orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
+    order.find(condition, "orderNo orderDate orderTime paymentMethod quantity total orderStatus orderDiscount")
         .populate("orderProducts", "productBarcode productId productName productImg productShortDesc productPrice productRetailPrice stockStatus")
+        .populate("orderUser", "username email")
         .then((response) => {
             console.log(response);
             return callback(null, response);
