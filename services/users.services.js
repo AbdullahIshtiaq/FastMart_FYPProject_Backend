@@ -129,10 +129,10 @@ async function getAll(params, callback) {
         return callback(error);
     });
 
-}
+}s
 
 async function getUserById(params, callback) {
-    User.find({_id: params}).then((response) => {
+    User.findById(params).then((response) => {
         return callback(null, response);
     }).catch((error) => {
         return callback(error);
