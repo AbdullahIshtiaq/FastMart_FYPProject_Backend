@@ -107,14 +107,14 @@ exports.getProductsForAdmin = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-    upload(req, res, function (err) {
-        if (err) {
-            next(err)
-        } else {
+    // upload(req, res, function (err) {
+    //     if (err) {
+    //         next(err)
+    //     } else {
             console.log("Line 114: In Update Product");
-            console.log(req.file);
+            //console.log(req.file);
             console.log(req.body);
-            const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
+            //const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
             var model = {
                 productId: req.params.id,
                 productName: req.body.productName,
@@ -125,7 +125,7 @@ exports.update = (req, res, next) => {
                 productRetailPrice: req.body.productRetailPrice,
                 productBarcode: req.body.productBarcode,
                 stockStatus: req.body.stockStatus,
-                productImg: path != "" ? "/" + path : "",
+                //productImg: path != "" ? "/" + path : "",
             }
             console.log("Line 130: In Update Product");
             console.log(model);
@@ -143,8 +143,8 @@ exports.update = (req, res, next) => {
                     });
                 }
             });
-        }
-    });
+    //     }
+    // });
 }
 
 exports.delete = (req, res, next) => {
