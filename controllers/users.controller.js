@@ -65,6 +65,7 @@ exports.updateProfileImage = (req, res, next) => {
     console.log("In User Controller Line 65");
     upload(req, res, function (err) {
         if (err) {
+            console.log(err)
             next(err)
         } else {
             console.log(req.file);
