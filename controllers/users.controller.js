@@ -90,7 +90,7 @@ exports.updateProfileImage = (req, res, next) => {
 
 exports.getAll = (req, res, next) => {
     console.log("In User Controller Line 91");
-    userService.getUserById(req.query, (error, results) => {
+    userService.getAll(req.query, (error, results) => {
         if (error) {
             return next(error);
         } else {
@@ -107,7 +107,7 @@ exports.getUserById = (req, res, next) => {
     console.log("In User Controller Line 107");
     const userId = req.params.userId;
 
-    userService.getAll(userId, (error, results) => {
+    userService.getUserById(userId, (error, results) => {
         if (error) {
             return next(error);
         } else {
