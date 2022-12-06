@@ -91,7 +91,9 @@ async function getWeeklySales(callback) {
     const dateTime = new Date().toLocaleString();
     console.log("In Sales Weekly Current DateTime: " + dateTime);
 
-    const currentDate = dateTime.split(', ')[0];
+    var currentDate = dateTime.split(', ')[0];
+
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
     console.log("In Sales Weekly Current Date: " + currentDate);
     //const currentDate = "03/10/2022";
