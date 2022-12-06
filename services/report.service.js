@@ -6,6 +6,9 @@ async function getDailyReport(callback) {
     const dateTime = new Date().toLocaleString();
     var date = dateTime.split(', ')[0];
     date = date.split('/')[1] + "/" + date.split('/')[0] + "/" + date.split('/')[2];
+    if(date.split('/')[0].length == 1){
+        date = "0" + date;
+    }
     console.log(date);
 
     order.find({ orderDate: date }, "total orderDate orderTime orderDiscount")
