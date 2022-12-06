@@ -111,6 +111,9 @@ exports.update = (req, res, next) => {
         if (err) {
             next(err)
         } else {
+            console.log("Line 114: In Update Product");
+            console.log(req.file);
+            console.log(req.body);
             const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
             var model = {
                 productId: req.params.id,
@@ -124,7 +127,8 @@ exports.update = (req, res, next) => {
                 stockStatus: req.body.stockStatus,
                 productImg: path != "" ? "/" + path : "",
             }
-
+            console.log("Line 130: In Update Product");
+            console.log(model);
             productService.updateProduct(model, (error, results) => {
                 if (error) {
                     console.log("In Update Product Error");
