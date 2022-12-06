@@ -89,13 +89,17 @@ function convertToSeconds(time) {
 async function getWeeklySales(callback) {
 
     const dateTime = new Date().toLocaleString();
+    console.log("In Sales Weekly Current DateTime: " + dateTime);
+
     const currentDate = dateTime.split(', ')[0];
+
+    console.log("In Sales Weekly Current Date: " + currentDate);
     //const currentDate = "03/10/2022";
 
     const weeklyInitailDate = getWeekDate(currentDate);
     //const weeklyInitailDate = "28/11/2022";
 
-    console.log(weeklyInitailDate);
+    console.log("In Sales Weekly Week Date: " + weeklyInitailDate);
 
     if (weeklyInitailDate.split('/')[1] == currentDate.split('/')[1]) {
         console.log("In if");
@@ -144,7 +148,7 @@ async function getWeeklySales(callback) {
 }
 
 function getWeekDate(currentDate) {
-    console.log("In create order Line 93");
+    console.log("In get week data Line 147");
 
     var month = currentDate.split('/')[1] - 1;
     var date = currentDate.split('/')[0];
@@ -173,8 +177,8 @@ function getWeekDate(currentDate) {
 
 async function arrangeWeekly(initialDate, orderList, callback) {
     console.log("In Line 122");
-    //console.log(orderList);
     //console.log(initialDate);
+    console.log(orderList);
     const filteredOrderList = [
         {
             day1: {

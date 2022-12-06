@@ -168,7 +168,6 @@ async function proccessCustomerData(orderList, callback) {
     return callback(null,customerReport);
 }
 
-
 module.exports = {
     getDailyReport,
     getWeeklyReport,
