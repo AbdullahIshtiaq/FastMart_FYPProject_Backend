@@ -50,11 +50,14 @@ exports.createOrderByCash = (req, res, next) => {
 
     const dateTime = new Date().toLocaleString();
 
+    var currentDate = dateTime.split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
     var incomingOrder = {
         orderUser: req.body.userId,
         orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
-        orderDate: dateTime.split(', ')[0],
+        orderDate: currentDate,
         orderTime: dateTime.split(', ')[1],
         quantity: req.body.quantity,
         total: req.body.total,
@@ -135,13 +138,16 @@ exports.createPOSOrder = (req, res, next) => {
 
     const dateTime = new Date().toLocaleString();
 
+    var currentDate = dateTime.split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
     var model = {
         orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
         quantity: req.body.quantity,
         total: req.body.total,
         orderProducts: products,
-        orderDate: dateTime.split(', ')[0],
+        orderDate: currentDate,
         orderTime: dateTime.split(', ')[1],
         orderStatus: "Success",
     }

@@ -81,7 +81,9 @@ async function getActiveOffers(callback) {
 
 async function filterOffers(offerData, callback) {
 
-    const currentDate = new Date().toLocaleString().split(', ')[0];
+    var currentDate = new Date().toLocaleString().split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
+    
     const offerList = [];
 
     for (let i = 0; i < offerData.length; i++) {

@@ -12,12 +12,17 @@ exports.create = (req, res, next) => {
 
                 const dateTime = new Date().toLocaleString();
 
+                var currentDate = dateTime.split(', ')[0];
+                currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
+                
+                var filteredDateTime = currentDate + " " + dateTime.split(', ')[1];
+
                 var model = {
                     advertismentTitle: req.body.title,
                     advertismentDesc: req.body.description,
                     advertismentAttachment: path != "" ? "/" + path : "",
                     advertismentType: req.body.type,
-                    createdDateTime: dateTime,
+                    createdDateTime: filteredDateTime,
                 }
 
                 advertismentService.createadvertisment(model, (error, results) => {
@@ -33,11 +38,16 @@ exports.create = (req, res, next) => {
             } else {
                 const dateTime = new Date().toLocaleString();
 
+                var currentDate = dateTime.split(', ')[0];
+                currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
+                
+                var filteredDateTime = currentDate + " " + dateTime.split(', ')[1];
+
                 var model = {
                     advertismentTitle: req.body.title,
                     advertismentDesc: req.body.description,
                     advertismentType: req.body.type,
-                    createdDateTime: dateTime,
+                    createdDateTime: filteredDateTime,
                     startDate: req.body.startDate,
                     endDate: req.body.endDate,
                     discount: req.body.discount,

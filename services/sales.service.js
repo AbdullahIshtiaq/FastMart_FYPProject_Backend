@@ -5,7 +5,8 @@ const category = require('../models/category.model');
 async function getDailySales(callback) {
 
     const dateTime = new Date().toLocaleString();
-    const date = dateTime.split(', ')[0];
+    var  date = dateTime.split(', ')[0];
+    date = date.split('/')[1] + "/" + date.split('/')[0] + "/" + date.split('/')[2];
     console.log(date);
 
     order.find({ orderDate: date }, "orderNo total orderDate orderTime quantity")
@@ -255,9 +256,9 @@ async function arrangeWeekly(initialDate, orderList, callback) {
 async function getMonthlySales(callback) {
 
     const dateTime = new Date().toLocaleString();
-    const currentDate = dateTime.split(', ')[0];
+    var currentDate = dateTime.split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
     //const currentDate = "03/10/2022";
-
     const yearlyInitailDate = "01/01/" + currentDate.split('/')[2];
 
     order.find({ orderDate: { $gte: yearlyInitailDate, $lte: currentDate } }, "orderNo total orderDate orderTime quantity")

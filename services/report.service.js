@@ -4,7 +4,8 @@ const category = require('../models/category.model');
 async function getDailyReport(callback) {
 
     const dateTime = new Date().toLocaleString();
-    const date = dateTime.split(', ')[0];
+    var date = dateTime.split(', ')[0];
+    date = date.split('/')[1] + "/" + date.split('/')[0] + "/" + date.split('/')[2];
     console.log(date);
 
     order.find({ orderDate: date }, "total orderDate orderTime orderDiscount")
@@ -26,27 +27,61 @@ async function getDailyReport(callback) {
 async function getWeeklyReport(callback) {
 
     const dateTime = new Date().toLocaleString();
-    //const currentDate = dateTime.split(', ')[0];
-    const currentDate = "30/11/2022";
+    var currentDate = dateTime.split(', ')[0];
+    //var currentDate = "30/11/2022";
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
     const weeklyInitailDate = getWeekDate(currentDate);
 
     console.log(weeklyInitailDate);
 
-    order.find({ orderDate: { $gte: weeklyInitailDate, $lte: currentDate } }, "total orderDate orderTime orderDiscount")
-        .populate('orderProducts', 'productRetailPrice')
-        .then((response) => {
-            proccessData(response, (err, result) => {
-                if (err) {
-                    return callback(err);
-                } else {
-                    return callback(null, result);
-                }
+    if (weeklyInitailDate.split('/')[1] == currentDate.split('/')[1]) {
+        console.log("In if");
+        order.find({ orderDate: { $gt: weeklyInitailDate, $lte: currentDate } }, "total orderDate orderTime orderDiscount")
+            .populate('orderProducts', 'productRetailPrice')
+            .then((response) => {
+                console.log(response);
+                arrangeWeekly(weeklyInitailDate, response, (err, result) => {
+                    if (err) {
+                        return callback(err);
+                    } else {
+                        return callback(null, result);
+                    }
+                });
+            }).catch((error) => {
+                console.log(error);
+                return callback(error);
             });
-        }).catch((error) => {
-            console.log(error);
-            return callback(error);
-        });
+    } else {
+        console.log("In else");
+        const secondDate = "01" + "/" + currentDate.split('/')[1] + "/" + currentDate.split('/')[2];
+        order.find({ orderDate: { $gt: weeklyInitailDate } }, "total orderDate orderTime orderDiscount")
+            .populate('orderProducts', 'productRetailPrice')
+            .then((initialResponse) => {
+                //console.log(initialResponse);
+                order.find({ orderDate: { $gt: secondDate } }, "total orderDate orderTime orderDiscount")
+                    .populate('orderProducts', 'productRetailPrice')
+                    .then((secondResponse) => {
+                        //console.log(secondResponse);
+                        var array = [];
+                        array = array.concat(initialResponse);
+                        array = array.concat(secondResponse);
+                        proccessData(array, (err, result) => {
+                            if (err) {
+                                return callback(err);
+                            } else {
+                                return callback(null, result);
+                            }
+                        });
+                    }).catch((error) => {
+                        console.log(error);
+                        return callback(error);
+                    });
+            }).catch((error) => {
+                console.log(error);
+                return callback(error);
+            });
+    }
 }
 
 function getWeekDate(currentDate) {
@@ -66,7 +101,7 @@ function getWeekDate(currentDate) {
         } else if (month == "04" || month == "06" || month == "09" || month == "11") {
             var dateNo = 20 + ((date - 7) + 10);
             weekDate = dateNo + "/" + month + "/" + currentDate.split('/')[2];
-           // console.log("In Line Report 109");
+            // console.log("In Line Report 109");
         }
     } else {
         //console.log("In Line Report 98");
@@ -79,7 +114,8 @@ function getWeekDate(currentDate) {
 async function getMonthlyReport(callback) {
 
     const dateTime = new Date().toLocaleString();
-    const currentDate = dateTime.split(', ')[0];
+    var currentDate = dateTime.split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
     const monthInitailDate = "01/" + currentDate.split('/')[1] + "/" + currentDate.split('/')[2];
 
@@ -165,7 +201,7 @@ async function proccessCustomerData(orderList, callback) {
         customerReport.totalDiscountAvail += orderList[i].orderDiscount;
     }
     console.log(customerReport);
-    return callback(null,customerReport);
+    return callback(null, customerReport);
 }
 
 module.exports = {

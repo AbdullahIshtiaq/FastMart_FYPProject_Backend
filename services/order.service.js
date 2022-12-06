@@ -192,6 +192,9 @@ async function saveOrderDB(incomingOrder, params, callback) {
     const dateTime = new Date().toLocaleString();
     console.log("In save order Line 193");
 
+    var currentDate = dateTime.split(', ')[0];
+    currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
     console.log(dateTime);
 
     const orderModel = new order({
@@ -200,7 +203,7 @@ async function saveOrderDB(incomingOrder, params, callback) {
         orderProducts: incomingOrder.orderProducts,
         paymentMethod: incomingOrder.paymentMethod,
         quantity: incomingOrder.quantity,
-        orderDate: dateTime.split(', ')[0],
+        orderDate: currentDate,
         orderTime: dateTime.split(', ')[1],
         total: incomingOrder.total,
         orderDiscount: incomingOrder.orderDiscount,
