@@ -3,7 +3,6 @@ const cards = require('../models/cards.model');
 const order = require('../models/order.model');
 const dbConfig = require('../config/db.config');
 
-
 const stripeService = require('../services/stripe.service');
 
 async function createOrder(incomingOrder, params, callback) {
@@ -185,7 +184,6 @@ async function createPaymentIntent(params, callback) {
     });
 }
 
-
 async function saveOrderDB(incomingOrder, params, callback) {
     console.log("In create order Line 160");
 
@@ -194,6 +192,10 @@ async function saveOrderDB(incomingOrder, params, callback) {
 
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
 
     console.log(dateTime);
 
@@ -275,7 +277,6 @@ async function createOrderByCash(params, callback) {
     });
 }
 
-
 async function updateOrder(params, callback) {
     console.log("Order Service Line 142 " + params.transactionId);
     var model = {
@@ -299,75 +300,6 @@ async function updateOrder(params, callback) {
             return callback(error);
         });
 }
-
-// async function getUserOrders(params, callback) {
-
-//     console.log("Service Line 17 "+params);
-//     order.find({ orderUser: params})
-//     .populate({
-//         path: 'orderProducts',
-//         model: 'product',
-//         populate: {
-//             path: 'category',
-//             model: 'category',
-//             select: 'categoryName'
-//         }
-//     }).then((response) => {
-//         return callback(null, response);
-//     }).catch((error) => {
-//         return callback(error);
-//     });
-// }
-
-// async function getOrders(callback) {
-//     order.find({})
-//     .populate({
-//         path: 'orderProducts',
-//         model: 'product',
-//         populate: {
-//             path: 'category',
-//             model: 'category',
-//             select: 'categoryName'
-//         }
-//     }).then((response) => {
-//         console.log("Service Line 195 "+response);
-//         return callback(null, response);
-//     }).catch((error) => {
-//         console.log(error);
-//         return callback(error);
-//     });
-
-// }
-
-
-// const Order = require('../models/order.model');
-// const dbConfig = require('../config/db.config');
-
-// async function createOrder(params, callback) {
-
-//     if (!params.orderNo) {
-//         return callback({
-//             message: "Order No Required"
-//         }, "");
-//     }
-//     if (!params.orderProducts) {
-//         return callback({
-//             message: "Order Product Required"
-//         }, "");
-//     }
-
-//     console.log("Service Line 17 "+params);
-
-//     const model = Order(params);
-
-//     model.save().then((response) => {
-//         console.log("Line 22 "+response);
-//         return callback(null, response);
-//     }).catch((error) => {
-//         console.log("Line 25 "+error);
-//         return callback(error);
-//     });
-// }
 
 async function getUserOrders(params, callback) {
 

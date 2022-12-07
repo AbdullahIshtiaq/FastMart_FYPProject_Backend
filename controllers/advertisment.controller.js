@@ -15,6 +15,10 @@ exports.create = (req, res, next) => {
                 var currentDate = dateTime.split(', ')[0];
                 currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
                 
+                if(currentDate.split('/')[0].length == 1){
+                    currentDate = "0" + currentDate;
+                }
+
                 var filteredDateTime = currentDate + " " + dateTime.split(', ')[1];
 
                 var model = {
@@ -40,6 +44,10 @@ exports.create = (req, res, next) => {
 
                 var currentDate = dateTime.split(', ')[0];
                 currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
+                
+                if(currentDate.split('/')[0].length == 1){
+                    currentDate = "0" + currentDate;
+                }
                 
                 var filteredDateTime = currentDate + " " + dateTime.split(', ')[1];
 

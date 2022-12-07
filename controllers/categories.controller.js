@@ -109,9 +109,10 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
 
     var model = {
-        categoryId: req.query.cardId,
+        categoryId: req.params.id,
     }
     console.log("In Delete");
+    console.log(model);
 
     categoryService.deleteCategory(model, (error, results) => {
 

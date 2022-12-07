@@ -84,6 +84,10 @@ async function filterOffers(offerData, callback) {
     var currentDate = new Date().toLocaleString().split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2]; 
     
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
+    
     const offerList = [];
 
     for (let i = 0; i < offerData.length; i++) {
