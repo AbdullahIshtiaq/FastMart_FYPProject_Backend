@@ -39,6 +39,11 @@ async function getWeeklyReport(callback) {
     }
 
     var weeklyInitailDate = getWeekDate(currentDate);
+    
+    if(weeklyInitailDate.split('/')[0].length == 1){
+        weeklyInitailDate = "0" + weeklyInitailDate;
+    }
+
 
     console.log(weeklyInitailDate);
 

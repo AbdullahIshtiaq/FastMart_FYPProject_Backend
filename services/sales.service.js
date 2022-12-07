@@ -106,7 +106,12 @@ async function getWeeklySales(callback) {
     console.log("In Sales Weekly Current Date: " + currentDate);
     //const currentDate = "03/10/2022";
 
-    const weeklyInitailDate = getWeekDate(currentDate);
+    var weeklyInitailDate = getWeekDate(currentDate);
+
+    if(weeklyInitailDate.split('/')[0].length == 1){
+        weeklyInitailDate = "0" + weeklyInitailDate;
+    }
+
     //const weeklyInitailDate = "28/11/2022";
 
     console.log("In Sales Weekly Week Date: " + weeklyInitailDate);
