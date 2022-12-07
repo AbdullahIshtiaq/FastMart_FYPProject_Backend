@@ -48,7 +48,7 @@ async function getWeeklyReport(callback) {
             .populate('orderProducts', 'productRetailPrice')
             .then((response) => {
                 console.log(response);
-                proccessData(array, (err, result) => {
+                proccessData(response, (err, result) => {
                     if (err) {
                         return callback(err);
                     } else {
