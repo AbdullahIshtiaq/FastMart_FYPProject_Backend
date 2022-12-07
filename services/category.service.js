@@ -32,8 +32,6 @@ async function getCategories(params, callback) {
     let page = (Math.abs(params.page) || 1) - 1;
 
     Category.find(condition, "categoryName categoryImg")
-        .limit(perPage)
-        .skip(perPage * page)
         .then((response) => {
             console.log(response);
             return callback(null, response);
