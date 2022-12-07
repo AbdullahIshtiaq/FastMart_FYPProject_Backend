@@ -99,8 +99,8 @@ async function getWeeklySales(callback) {
 
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
-    if(date.split('/')[0].length == 1){
-        date = "0" + date;
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
     }
 
     console.log("In Sales Weekly Current Date: " + currentDate);
@@ -265,8 +265,8 @@ async function getMonthlySales(callback) {
     const dateTime = new Date().toLocaleString();
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
-    if(date.split('/')[0].length == 1){
-        date = "0" + date;
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
     }
     //const currentDate = "03/10/2022";
     const yearlyInitailDate = "01/01/" + currentDate.split('/')[2];
