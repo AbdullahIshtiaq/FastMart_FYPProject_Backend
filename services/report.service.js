@@ -44,7 +44,7 @@ async function getWeeklyReport(callback) {
             .populate('orderProducts', 'productRetailPrice')
             .then((response) => {
                 console.log(response);
-                arrangeWeekly(weeklyInitailDate, response, (err, result) => {
+                proccessData(array, (err, result) => {
                     if (err) {
                         return callback(err);
                     } else {
