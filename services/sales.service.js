@@ -463,6 +463,7 @@ async function arrangeCategory(categoryData, callback) {
                     }
                 }
             }
+            categoryList.sort((a, b) => (a.total < b.total) ? 1 : -1);
             //console.log(categoryList);
             return callback(null, categoryList);
         }
