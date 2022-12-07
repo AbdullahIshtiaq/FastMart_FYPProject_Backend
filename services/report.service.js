@@ -34,7 +34,11 @@ async function getWeeklyReport(callback) {
     //var currentDate = "30/11/2022";
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
-    const weeklyInitailDate = getWeekDate(currentDate);
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
+
+    var weeklyInitailDate = getWeekDate(currentDate);
 
     console.log(weeklyInitailDate);
 
@@ -119,6 +123,10 @@ async function getMonthlyReport(callback) {
     const dateTime = new Date().toLocaleString();
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
 
     const monthInitailDate = "01/" + currentDate.split('/')[1] + "/" + currentDate.split('/')[2];
 

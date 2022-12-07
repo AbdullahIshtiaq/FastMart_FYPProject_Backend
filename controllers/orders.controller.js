@@ -52,6 +52,9 @@ exports.createOrderByCash = (req, res, next) => {
 
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
 
     var incomingOrder = {
         orderUser: req.body.userId,
@@ -141,6 +144,10 @@ exports.createPOSOrder = (req, res, next) => {
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
 
+    if(currentDate.split('/')[0].length == 1){
+        currentDate = "0" + currentDate;
+    }
+
     var model = {
         orderNo: req.body.orderNo,
         paymentMethod: req.body.paymentMethod,
@@ -164,49 +171,3 @@ exports.createPOSOrder = (req, res, next) => {
         }
     });
 }
-
-// exports.findAllOfUser = (req, res, next) => {
-
-//     console.log('Line 31')
-//     var model = {
-//         orderUserID: req.query.orderUserID,
-//         pageSize: req.query.pageSize,
-//         page: req.query.page,
-//     }
-//     console.log('Line 37 '+ model)
-
-//     orderService.getUserOrders(model, (error, results) => {
-//         if (error) {
-//             console.log('Line 41 '+ error)
-//             return next(error);
-//         } else {
-//             console.log('Line 44 '+ results)
-//             res.status(200).send({
-//                 message: "Success",
-//                 data: results,
-//             });
-//         }
-//     });
-// }
-
-
-// exports.findAll = (req, res, next) => {
-
-//     var model = {
-//         pageSize: req.query.pageSize,
-//         page: req.query.page,
-//     }
-
-//     orderService.getOrders(model, (error, results) => {
-//         if (error) {
-//             console.log('Line 41')
-//             return next(error);
-//         } else {
-//             console.log('Line 44')
-//             res.status(200).send({
-//                 message: "Success",
-//                 data: results,
-//             });
-//         }
-//     });
-// }

@@ -1,4 +1,3 @@
-const { parse } = require('dotenv');
 const order = require('../models/order.model');
 const category = require('../models/category.model');
 
@@ -99,6 +98,10 @@ async function getWeeklySales(callback) {
     var currentDate = dateTime.split(', ')[0];
 
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+
+    if(date.split('/')[0].length == 1){
+        date = "0" + date;
+    }
 
     console.log("In Sales Weekly Current Date: " + currentDate);
     //const currentDate = "03/10/2022";
@@ -262,6 +265,9 @@ async function getMonthlySales(callback) {
     const dateTime = new Date().toLocaleString();
     var currentDate = dateTime.split(', ')[0];
     currentDate = currentDate.split('/')[1] + "/" + currentDate.split('/')[0] + "/" + currentDate.split('/')[2];
+    if(date.split('/')[0].length == 1){
+        date = "0" + date;
+    }
     //const currentDate = "03/10/2022";
     const yearlyInitailDate = "01/01/" + currentDate.split('/')[2];
 
@@ -463,7 +469,6 @@ async function arrangeCategory(categoryData, callback) {
 
     });
 }
-
 
 module.exports = {
     getDailySales,
